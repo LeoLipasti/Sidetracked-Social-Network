@@ -51,6 +51,6 @@ app.get("*", (req, res) => {
 //});
 if (require.main == module) {
     app.listen(process.env.PORT || 8080, () =>
-        console.log("SocialNetwork-Siderails")
+        console.log("SocialNetwork-Sidetracked")
     );
 }

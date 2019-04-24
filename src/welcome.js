@@ -6,6 +6,14 @@ export default class Welcome extends React.Component {
         this.state = {};
     }
     render() {
-        return <div>Hello!</div>;
+        return (
+            <div>
+                <h1>Welcome to Sidetracked the Social Network!</h1>
+                <a href={"/register"} />
+                New User? Register here
+                <a href={"/login"} />
+                Login
+            </div>
+        );
     }
 }
