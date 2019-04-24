@@ -2,6 +2,21 @@ const express = require("express");
 const app = express();
 const compression = require("compression");
 
+const db = require("./db");
+const cookieSession = require("cookie-session");
+
+// COOKIE SESSION ////// COOKIE SESSION ////// COOKIE SESSION ////
+const { cookieData } = require("./cookies");
+var secret = cookieData();
+//secret = process.env.SESSION_SECRET;
+app.use(
+    cookieSession({
+        maxAge: 1000 * 60 * 60 * 24 * 14,
+        secret: secret
+    })
+);
+// COOKIE SESSION ////// COOKIE SESSION ////// COOKIE SESSION ////
+
 app.use(compression());
 
 if (process.env.NODE_ENV != "production") {
@@ -31,6 +46,11 @@ app.get("*", (req, res) => {
     }
 });
 
-app.listen(8080, function() {
-    console.log("I'm listening.");
-});
+//app.listen(8080, function() {
+//    console.log("I'm listening.");
+//});
+if (require.main == module) {
+    app.listen(process.env.PORT || 8080, () =>
+        console.log("SocialNetwork-Siderails")
+    );
+}
