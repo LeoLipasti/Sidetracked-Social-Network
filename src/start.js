@@ -8,21 +8,15 @@ import Login from "./login";
 let elem;
 
 if (location.pathname == "/welcome") {
+    console.log("Welcome");
     elem = <Welcome />;
-} else {
-    elem = <img src="/logo.gif" />;
-}
-
-if (location.pathname == "/register") {
+} else if (location.pathname == "/register") {
     elem = <Registration />;
-} else {
-    elem = <img src="/logo.gif" />;
-}
-
-if (location.pathname == "/login") {
+} else if (location.pathname == "/login") {
     elem = <Login />;
 } else {
     elem = <img src="/logo.gif" />;
 }
+console.log(location.pathname);
 
 ReactDOM.render(elem, document.querySelector("main"));

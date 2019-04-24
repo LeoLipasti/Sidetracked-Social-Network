@@ -7,15 +7,21 @@ export default class Registration extends React.Component {
         this.state = {};
     }
     submit() {
-        axios.post("/register", {
-            first: this.state.first,
-            last: this.state.last,
-            email: this.state.email,
-            passw: this.state.passw
-        });
+        console.log(this.state);
+        axios
+            .post("/register", {
+                first: this.state.first,
+                last: this.state.last,
+                email: this.state.email,
+                passw: this.state.passw
+            })
+            .then(resp => {
+                console.log(resp);
+                location.replace("/");
+            });
         //.then(({ data }) => {
-        // this.setState({
-        //  error: true
+        //     this.setState({
+        //      error: true
         //})
         //    location.replace("/");
         //})
@@ -25,17 +31,39 @@ export default class Registration extends React.Component {
     }
     render() {
         //const handleInput = e => {
-        //    this.setState([e.target.name]: e.target.value);
+        //this.setState(([e.target.name] = e.target.value));
         //};
+        //const handleInput = event => {
+        //    this.setValue(event.target.value);
+        //};
+        const handleInput = e => {
+            this.setState({ [e.target.name]: e.target.value });
+        };
         return (
-            <div>
+            <div className="box">
                 {this.state.error && (
                     <div className="error">Something went wrong!</div>
                 )}
-                <input name="first" />
-                <input name="last" />
-                <input name="email" />
-                <input name="passw" />
+                <p>
+                    First Name
+                    <input name="first" onChange={handleInput} />
+                </p>
+                <p>
+                    Last Name
+                    <input name="last" onChange={handleInput} />
+                </p>
+                <p>
+                    Email
+                    <input name="email" onChange={handleInput} />
+                </p>
+                <p>
+                    Password
+                    <input
+                        name="passw"
+                        onChange={handleInput}
+                        type="password"
+                    />
+                </p>
                 <button onClick={e => this.submit()}>Join up</button>
             </div>
         );
