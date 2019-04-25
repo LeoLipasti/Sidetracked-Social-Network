@@ -6,11 +6,13 @@ const db = require("./utils/db");
 const bc = require("./utils/bc");
 const cookieSession = require("cookie-session");
 
-app.use(
-    require("body-parser").urlencoded({
-        extended: false
-    })
-);
+//app.use(
+//    require("body-parser").urlencoded({
+//        extended: false
+//    })
+//);
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
 
 // COOKIE SESSION ////// COOKIE SESSION ////// COOKIE SESSION ////
 const { cookieData } = require("./cookies");
