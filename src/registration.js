@@ -6,9 +6,9 @@ export default class Registration extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        //this.handleInput.bind(this);
     }
     submit() {
-        console.log(this.state);
         axios
             .post("/register", {
                 first: this.state.first,
@@ -16,9 +16,11 @@ export default class Registration extends React.Component {
                 email: this.state.email,
                 passw: this.state.passw
             })
-            .then(resp => {
-                console.log(resp);
+            .then(() => {
                 location.replace("/");
+            })
+            .catch(() => {
+                this.setState({ error: "error" });
             });
     }
     render() {

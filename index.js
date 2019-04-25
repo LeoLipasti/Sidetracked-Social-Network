@@ -53,6 +53,54 @@ app.get("/welcome", (req, res) => {
     }
 });
 
+// LOGIN //// LOGIN //// LOGIN //// LOGIN //
+
+app.get("/login", (req, res) => {
+    console.log(req.session.userId);
+    if (req.session.userId) {
+        console.log("/ from login");
+        res.redirect("/");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
+
+app.post("/login", (req, res) => {
+    console.log("/login post");
+    if (req.session.userId) {
+        console.log("/ from login");
+        res.redirect("/");
+    } else {
+        return db
+            .queryLogin(req.body.email)
+            .then(results => {
+                if (results.rows[0] != undefined) {
+                    let password = results.rows[0].password;
+                    Promise.all([
+                        bc.checkPassword(req.body.password, password),
+                        db.queryLoginID(req.body.email)
+                    ])
+                        .then(results => {
+                            req.session.userId = results[1].rows.id;
+                            res.send("success");
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).send("fail");
+                        });
+                } else {
+                    res.status(500).send("fail");
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).send("fail");
+            });
+    }
+});
+
+// REGISTER //// REGISTER //// REGISTER //
+
 app.get("/register", (req, res) => {
     if (req.session.userId) {
         console.log("/ from register");
@@ -78,25 +126,20 @@ app.post("/register", (req, res) => {
                     req.body.email,
                     results
                 ).then(returnid => {
+                    console.log(returnid.rows);
+                    console.log(returnid.rows.id);
                     req.session.userId = returnid.rows.id;
                     res.send("success");
                 });
             })
             .catch(err => {
                 console.log(err);
+                res.status(500).send("fail");
             });
     }
 });
 
-app.get("*", (req, res) => {
-    console.log("* :" + req.url);
-    if (!req.session.userId) {
-        console.log("redirect to welcome");
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-    }
-});
+// * //// * //// * //// * //// * //// * //
 
 app.get("*", (req, res) => {
     console.log("* :" + req.url);
@@ -108,9 +151,6 @@ app.get("*", (req, res) => {
     }
 });
 
-//app.listen(8080, function() {
-//    console.log("I'm listening.");
-//});
 if (require.main == module) {
     app.listen(process.env.PORT || 8080, () =>
         console.log("SocialNetwork-Sidetracked")

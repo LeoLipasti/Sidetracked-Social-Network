@@ -10,3 +10,15 @@ exports.createUser = function createUser(first, last, email, passw) {
     let params = [first, last, email, passw];
     return db.query(q, params);
 };
+
+exports.queryLogin = function queryLogin(email) {
+    let q = `SELECT password FROM users WHERE lower(email) = lower($1)`;
+    let params = [email];
+    return db.query(q, params);
+};
+
+exports.queryLoginID = function queryLoginID(email) {
+    let q = `SELECT id FROM users WHERE lower(email) = lower($1)`;
+    let params = [email];
+    return db.query(q, params);
+};
