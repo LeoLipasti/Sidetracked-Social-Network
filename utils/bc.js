@@ -1,12 +1,8 @@
 var bcrypt = require("bcryptjs");
 
 exports.hashPassword = function hashPassword(plainTextPassword) {
+    console.log("hashpassword: " + plainTextPassword);
     return new Promise(function(resolve, reject) {
-        if (plainTextPassword === "") {
-            resolve(null);
-        } else if (plainTextPassword.length <= 6) {
-            resolve(undefined);
-        }
         bcrypt.genSalt(function(err, salt) {
             if (err) {
                 return reject(err);
@@ -18,6 +14,9 @@ exports.hashPassword = function hashPassword(plainTextPassword) {
                 resolve(hash);
             });
         });
+    }).catch(err => {
+        console.log("PASSWORD HASH ERR Create :" + err);
+        return err;
     });
 };
 
@@ -37,5 +36,8 @@ exports.checkPassword = function checkPassword(
                 }
             }
         );
+    }).catch(err => {
+        console.log("PASSWORD HASH ERR Check :" + err);
+        return err;
     });
 };

@@ -81,7 +81,7 @@ app.post("/login", (req, res) => {
                         db.queryLoginID(req.body.email)
                     ])
                         .then(results => {
-                            req.session.userId = results[1].rows.id;
+                            req.session.userId = results[1].rows[0].id;
                             res.send("success");
                         })
                         .catch(err => {
@@ -127,8 +127,8 @@ app.post("/register", (req, res) => {
                     results
                 ).then(returnid => {
                     console.log(returnid.rows);
-                    console.log(returnid.rows.id);
-                    req.session.userId = returnid.rows.id;
+                    console.log(returnid.rows[0].id);
+                    req.session.userId = returnid.rows[0].id;
                     res.send("success");
                 });
             })
