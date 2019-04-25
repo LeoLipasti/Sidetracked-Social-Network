@@ -4,17 +4,14 @@ const compression = require("compression");
 
 const db = require("./utils/db");
 const bc = require("./utils/bc");
-const cookieSession = require("cookie-session");
 
-//app.use(
-//    require("body-parser").urlencoded({
-//        extended: false
-//    })
-//);
+csurf = require("csurf");
+
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
 // COOKIE SESSION ////// COOKIE SESSION ////// COOKIE SESSION ////
+const cookieSession = require("cookie-session");
 const { cookieData } = require("./cookies");
 var secret = cookieData();
 //secret = process.env.SESSION_SECRET;
@@ -25,6 +22,13 @@ app.use(
     })
 );
 // COOKIE SESSION ////// COOKIE SESSION ////// COOKIE SESSION ////
+
+app.use(csurf());
+
+app.use(function(req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 app.use(compression());
 
@@ -59,29 +63,38 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-    console.log(req.body);
     console.log("/register post");
     if (req.session.userId) {
         console.log("/ from register");
         res.redirect("/");
     } else {
-        console.log("body: " + req.body.email);
-        console.log("body: " + req.body.last);
-        console.log("body: " + req.body.first);
-        console.log("body: " + req.body.passw);
         return bc
             .hashPassword(req.body.passw)
             .then(results => {
+                console.log("never null: " + results);
                 db.createUser(
                     req.body.first,
                     req.body.last,
                     req.body.email,
                     results
-                );
+                ).then(returnid => {
+                    req.session.userId = returnid.rows.id;
+                    res.send("success");
+                });
             })
-            .then(results => {
-                res.send(results);
+            .catch(err => {
+                console.log(err);
             });
+    }
+});
+
+app.get("*", (req, res) => {
+    console.log("* :" + req.url);
+    if (!req.session.userId) {
+        console.log("redirect to welcome");
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
     }
 });
 

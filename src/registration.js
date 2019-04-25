@@ -1,5 +1,6 @@
 import React from "react";
-const axios = require("axios");
+//const axios = require("axios");
+import axios from "./axios";
 
 export default class Registration extends React.Component {
     constructor(props) {
@@ -19,23 +20,8 @@ export default class Registration extends React.Component {
                 console.log(resp);
                 location.replace("/");
             });
-        //.then(({ data }) => {
-        //     this.setState({
-        //      error: true
-        //})
-        //    location.replace("/");
-        //})
-        //.catch
-        //
-        //();
     }
     render() {
-        //const handleInput = e => {
-        //this.setState(([e.target.name] = e.target.value));
-        //};
-        //const handleInput = event => {
-        //    this.setValue(event.target.value);
-        //};
         const handleInput = e => {
             this.setState({ [e.target.name]: e.target.value });
         };
