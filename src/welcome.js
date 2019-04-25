@@ -6,15 +6,9 @@ import Login from "./login";
 import { HashRouter, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 
+import style from "./styling_welcome.js";
+
 // placeholder test - also move styling to its own file later
-const TodoComponent = {
-    width: "300px",
-    margin: "30px auto",
-    backgroundColor: "#44014C",
-    minHeight: "200px",
-    boxSizing: "border-box",
-    color: "white"
-};
 
 export default class Welcome extends React.Component {
     constructor(props) {
@@ -22,7 +16,7 @@ export default class Welcome extends React.Component {
     }
     render() {
         return (
-            <div style={TodoComponent}>
+            <div style={style.data}>
                 <h1>Welcome to Sidetracked the Social Network!</h1>
                 <HashRouter>
                     <div>
