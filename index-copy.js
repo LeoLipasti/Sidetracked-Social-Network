@@ -65,34 +65,37 @@ app.get("/login", (req, res) => {
     }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", (req, res) => {
+    console.log("/login post");
     if (req.session.userId) {
+        console.log("/ from login");
         res.redirect("/");
     } else {
-        try {
-            const logindata = await db.queryLogin(req.body.email);
-            if (!logindata.rows[0]) {
-                throw "no results for email";
-            }
-            if (!req.body.passw) {
-                throw "no password from user";
-            }
-            const passw = logindata.rows[0].password;
-            const checkpass = bc.checkPassword(req.body.passw, passw);
-            const loginId = db.queryLoginID(req.body.email);
-            const returnpromises = {
-                checkpassProm: await checkpass,
-                checkloginProm: await loginId
-            };
-            if (!returnpromises.checkpassProm) {
-                throw "wrong password";
-            }
-            req.session.userId = returnpromises.checkloginProm.rows[0].id;
-            res.send("success");
-        } catch (err) {
-            console.log(err);
-            res.status(500).send("fail");
-        }
+        return db
+            .queryLogin(req.body.email)
+            .then(results => {
+                if (results.rows[0] != undefined) {
+                    let password = results.rows[0].password;
+                    Promise.all([
+                        bc.checkPassword(req.body.password, password),
+                        db.queryLoginID(req.body.email)
+                    ])
+                        .then(results => {
+                            req.session.userId = results[1].rows[0].id;
+                            res.send("success");
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).send("fail");
+                        });
+                } else {
+                    res.status(500).send("fail");
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).send("fail");
+            });
     }
 });
 
@@ -174,11 +177,6 @@ app.get("/user", (req, res) => {
     } else {
         res.sendFile(__dirname + "/index.html");
     }
-});
-
-app.get("/logout", (req, res) => {
-    req.session.userId = undefined;
-    res.redirect("/welcome");
 });
 
 // * //// * //// * //// * //// * //// * //
