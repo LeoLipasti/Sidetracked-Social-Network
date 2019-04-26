@@ -2,6 +2,8 @@ import React from "react";
 //const axios = require("axios");
 import axios from "./axios";
 
+import style from "./styling.js";
+
 export default class Registration extends React.Component {
     constructor(props) {
         super(props);
@@ -31,7 +33,7 @@ export default class Registration extends React.Component {
         return (
             <div className="box">
                 {this.state.error && (
-                    <div className="error">Something went wrong!</div>
+                    <div style={style.data.error}>Something went wrong!</div>
                 )}
                 <p>
                     First Name

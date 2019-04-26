@@ -6,7 +6,7 @@ import Login from "./login";
 import { HashRouter, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-import style from "./styling_welcome.js";
+import style from "./styling.js";
 
 // placeholder test - also move styling to its own file later
 
@@ -16,7 +16,7 @@ export default class Welcome extends React.Component {
     }
     render() {
         return (
-            <div style={style.data}>
+            <div style={style.data.body}>
                 <h1>Welcome to Sidetracked the Social Network!</h1>
                 <HashRouter>
                     <div>

@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "./axios";
 
+import style from "./styling.js";
+
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -27,7 +29,7 @@ export default class Login extends React.Component {
             <div>
                 <p>Login with your email and password</p>
                 {this.state.error && (
-                    <div className="error">Something went wrong!</div>
+                    <div style={style.data.error}>Something went wrong!</div>
                 )}
                 <p>
                     Email

@@ -115,7 +115,12 @@ app.post("/register", (req, res) => {
     if (req.session.userId) {
         console.log("/ from register");
         res.redirect("/");
-    } else {
+    } else if (
+        req.body.first &&
+        req.body.last &&
+        req.body.email &&
+        req.body.passw
+    ) {
         return bc
             .hashPassword(req.body.passw)
             .then(results => {
@@ -136,6 +141,9 @@ app.post("/register", (req, res) => {
                 console.log(err);
                 res.status(500).send("fail");
             });
+    } else {
+        console.log(err);
+        res.status(500).send("fail");
     }
 });
 
