@@ -147,6 +147,38 @@ app.post("/register", (req, res) => {
     }
 });
 
+app.get("/user", (req, res) => {
+    if (req.session.userId) {
+        db.findUser(req.session.userId)
+            .then(returndata => {
+                var userdata = {};
+                userdata.first = returndata.rows[0].first;
+                userdata.last = returndata.rows[0].last;
+                userdata.avatar = returndata.rows[0].avatar;
+                if (userdata.first && userdata.last) {
+                    res.send(userdata);
+                } else {
+                    // cookie goes wrong, mostly should happen only while testing if table is cleared or user is deleted
+                    console.log(
+                        "cookie error: couldnt get first, last by userId. Cookie now changed to undefined for a user"
+                    );
+                    req.session.userId = undefined;
+                    res.redirect("/welcome");
+                }
+            })
+            .catch(() => {
+                // cookie goes wrong, mostly should happen only while testing if table is cleared or user is deleted
+                console.log(
+                    "cookie error: couldnt get first, last by userId. Cookie now changed to undefined for a user"
+                );
+                req.session.userId = undefined;
+                res.redirect("/welcome");
+            });
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
+
 // * //// * //// * //// * //// * //// * //
 
 app.get("*", (req, res) => {

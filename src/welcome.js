@@ -16,7 +16,7 @@ export default class Welcome extends React.Component {
     }
     render() {
         return (
-            <div style={style.data.body}>
+            <div style={style.data.userbox}>
                 <h1>Welcome to Sidetracked the Social Network!</h1>
                 <HashRouter>
                     <div>
