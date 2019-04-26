@@ -107,72 +107,59 @@ app.get("/register", (req, res) => {
     }
 });
 
-app.post("/register", (req, res) => {
-    console.log("/register post");
+app.post("/register", async (req, res) => {
     if (req.session.userId) {
-        console.log("/ from register");
         res.redirect("/");
-    } else if (
-        req.body.first &&
-        req.body.last &&
-        req.body.email &&
-        req.body.passw
-    ) {
-        return bc
-            .hashPassword(req.body.passw)
-            .then(results => {
-                console.log("never null: " + results);
-                db.createUser(
-                    req.body.first,
-                    req.body.last,
-                    req.body.email,
-                    results
-                ).then(returnid => {
-                    console.log(returnid.rows);
-                    console.log(returnid.rows[0].id);
-                    req.session.userId = returnid.rows[0].id;
-                    res.send("success");
-                });
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).send("fail");
-            });
     } else {
-        console.log(err);
-        res.status(500).send("fail");
+        try {
+            if (
+                !req.body.first ||
+                !req.body.last ||
+                !req.body.email ||
+                !req.body.passw
+            ) {
+                throw "empty input field(s)";
+            }
+            const passw = await bc.hashPassword(req.body.passw);
+            const returnid = await db.createUser(
+                req.body.first,
+                req.body.last,
+                req.body.email,
+                passw
+            );
+            if (!returnid.rows[0].id) {
+                throw "createUser not successfull";
+            }
+            req.session.userId = returnid.rows[0].id;
+            res.send("success");
+        } catch (err) {
+            console.log(err);
+            res.status(500).send("fail");
+        }
     }
 });
 
-app.get("/user", (req, res) => {
-    if (req.session.userId) {
-        db.findUser(req.session.userId)
-            .then(returndata => {
-                var userdata = {};
-                userdata.first = returndata.rows[0].first;
-                userdata.last = returndata.rows[0].last;
-                userdata.avatar = returndata.rows[0].avatar;
-                if (userdata.first && userdata.last) {
-                    res.send(userdata);
-                } else {
-                    // cookie goes wrong, mostly should happen only while testing if table is cleared or user is deleted
-                    console.log(
-                        "cookie error: couldnt get first, last by userId. Cookie now changed to undefined for a user"
-                    );
-                    req.session.userId = undefined;
-                    res.redirect("/welcome");
-                }
-            })
-            .catch(() => {
-                // cookie goes wrong, mostly should happen only while testing if table is cleared or user is deleted
-                console.log(
-                    "cookie error: couldnt get first, last by userId. Cookie now changed to undefined for a user"
-                );
-                req.session.userId = undefined;
-                res.redirect("/welcome");
-            });
-    } else {
-        res.sendFile(__dirname + "/index.html");
+app.get("/user", async (req, res) => {
+    try {
+        const foundUser = await db.findUser(req.session.userId);
+        const userdata = {};
+        userdata.first = foundUser.rows[0].first;
+        userdata.last = foundUser.rows[0].last;
+        userdata.avatar = foundUser.rows[0].avatar;
+        if (!userdata.first || !userdata.last) {
+            throw "no first or lastname found with Id";
+        }
+        res.send(userdata);
+    } catch (err) {
+        // cookie goes wrong, mostly should happen only while testing if table is cleared or user is deleted
+        console.log(
+            "cookie error: " +
+                err +
+                " !!! Cookie now changed to undefined for a userId: " +
+                req.session.userId
+        );
+        req.session.userId = undefined;
+        res.redirect("/welcome");
     }
 });
 

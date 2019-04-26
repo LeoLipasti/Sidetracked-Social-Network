@@ -23,7 +23,6 @@ export default class Registration extends React.Component {
             })
             .catch(() => {
                 this.setState({ error: "error" });
-                console.log("error");
             });
     }
     render() {
