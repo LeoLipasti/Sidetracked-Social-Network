@@ -23,6 +23,32 @@ app.use(
 );
 // COOKIE SESSION ////// COOKIE SESSION ////// COOKIE SESSION ////
 
+var multer = require("multer");
+var uidSafe = require("uid-safe");
+var path = require("path");
+
+const s3 = require("./s3");
+
+const config = require("./config");
+
+var diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+
+var uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
+
 app.use(csurf());
 
 app.use(function(req, res, next) {
@@ -146,6 +172,7 @@ app.get("/user", async (req, res) => {
         userdata.first = foundUser.rows[0].first;
         userdata.last = foundUser.rows[0].last;
         userdata.avatar = foundUser.rows[0].avatar;
+        userdata.id = req.session.userId;
         if (!userdata.first || !userdata.last) {
             throw "no first or lastname found with Id";
         }
@@ -160,6 +187,21 @@ app.get("/user", async (req, res) => {
         );
         req.session.userId = undefined;
         res.redirect("/welcome");
+    }
+});
+
+app.post("/user", uploader.single("file"), s3.upload, async function(req, res) {
+    //If nothing went wrong the file is already in the uploads directory
+    try {
+        const url = config.s3Url + req.file.filename;
+        console.log(url);
+        await db.updateAvatar(url, req.session.userId);
+        res.json({
+            data: { url: url, id: req.session.userId }
+        });
+        console.log("response sent: " + { url: url, id: req.session.userId });
+    } catch (err) {
+        console.log(err);
     }
 });
 

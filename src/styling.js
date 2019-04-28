@@ -21,6 +21,21 @@ const MainStyle = {
         textAlign: "center",
         display: "inline",
         float: "right"
+    },
+    uploadimage: {
+        width: "550px",
+        height: "250px",
+        backgroundColor: "yellow",
+        textAlign: "center",
+        position: "absolute"
+    },
+    uploadimage_close: {
+        width: "16px",
+        height: "16px",
+        textAlign: "right",
+        position: "absolute",
+        top: "0",
+        right: "0"
     }
 };
 

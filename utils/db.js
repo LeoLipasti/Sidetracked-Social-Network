@@ -11,6 +11,12 @@ exports.createUser = function createUser(first, last, email, passw) {
     return db.query(q, params);
 };
 
+exports.updateAvatar = function updateAvatar(url, id) {
+    let q = `UPDATE users SET avatar = $1 WHERE id=$2`;
+    let params = [url, id];
+    return db.query(q, params);
+};
+
 exports.findUser = function findUser(id) {
     let q = `SELECT firstname AS first, lastname AS last, avatar FROM users WHERE id=$1`;
     let params = [id];
