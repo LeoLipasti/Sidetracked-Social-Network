@@ -39,8 +39,12 @@ export default class App extends React.Component {
                 this.setState({ error: "error" });
             });
     }
-    textUpload(text) {
-        console.log(text);
+    textUpload(txt) {
+        let formData = new FormData();
+        formData.append("txt", txt);
+        axios.post("/user", formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+        });
     }
     render() {
         if (!this.state.id) {

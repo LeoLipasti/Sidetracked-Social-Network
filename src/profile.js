@@ -10,11 +10,3 @@ export default function Profile(props) {
         </div>
     );
 }
-
-function textUpload(txt) {
-    let formData = new FormData();
-    formData.append("txt", txt);
-    axios.post("/user", formData, {
-        headers: { "Content-Type": "multipart/form-data" }
-    });
-}
