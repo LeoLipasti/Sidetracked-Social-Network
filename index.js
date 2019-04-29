@@ -7,6 +7,8 @@ const bc = require("./utils/bc");
 
 csurf = require("csurf");
 
+app.use(express.static("./public"));
+
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
@@ -173,6 +175,8 @@ app.get("/user", checkUser, async (req, res) => {
         userdata.last = foundUser.rows[0].last;
         userdata.avatar = foundUser.rows[0].avatar;
         userdata.id = req.session.userId;
+        userdata.bio = req.session.bio;
+        userdata.bioEditMode = false;
         if (!userdata.first || !userdata.last) {
             throw "no first or lastname found with Id";
         }

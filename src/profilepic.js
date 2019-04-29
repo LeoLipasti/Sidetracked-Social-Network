@@ -9,7 +9,7 @@ export default function ProfilePic({
     first,
     last,
     clickHandler,
-    imgscale
+    avatarscale
 }) {
     return (
         <div style={style.data.usericon}>
@@ -18,8 +18,9 @@ export default function ProfilePic({
                 onClick={clickHandler}
                 src={avatar || "/images/placeholder.png"}
                 alt={first + " " + last}
-                width={imgscale}
-                height={imgscale}
+                width={avatarscale}
+                height={avatarscale}
+                style={style.data.avatar}
             />
         </div>
     );

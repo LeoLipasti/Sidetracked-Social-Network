@@ -6,7 +6,7 @@ export default function Uploader({
     clickHandler,
     fileChange,
     avatar,
-    imgscale
+    avatarscale
 }) {
     return (
         <div style={style.data.uploadimage}>
@@ -14,8 +14,9 @@ export default function Uploader({
             <label htmlFor="file-upload">
                 <img
                     src={avatar || "/images/placeholder.png"}
-                    width={imgscale}
-                    height={imgscale}
+                    width={avatarscale}
+                    height={avatarscale}
+                    style={style.data.avatar}
                 />
             </label>
             <input

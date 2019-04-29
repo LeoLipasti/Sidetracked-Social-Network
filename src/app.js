@@ -14,11 +14,13 @@ import style from "./styling.js";
 export default class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { bioEditMode: false };
+        console.log(this.state.bioEditMode);
     }
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
             this.setState(data);
+            console.log(this.state.bioEditMode);
         });
     }
     fileUpload(file) {
@@ -37,19 +39,22 @@ export default class App extends React.Component {
                 this.setState({ error: "error" });
             });
     }
+    textUpload(text) {
+        console.log(text);
+    }
     render() {
         if (!this.state.id) {
-            return <img src={"./logo.gif"} />;
-            //or return <img src="/spinner.gif">
+            return <img src={"./logo.gif"} width="22px" />;
+            // TODO return <img src="/spinner.gif">
         }
         return (
             <div style={style.data.appbody}>
-                <img src={"./logo.gif"} />
+                <img src={"./logo.gif"} width="22px" />
                 <ProfilePic
                     avatar={this.state.avatar}
                     first={this.state.first}
                     last={this.state.last}
-                    imgscale={"75px"}
+                    avatarscale={"75px"}
                     clickHandler={() =>
                         this.setState({ isUloaderVisible: true })
                     }
@@ -64,13 +69,22 @@ export default class App extends React.Component {
                             avatar={this.state.avatar}
                             first={this.state.first}
                             last={this.state.last}
-                            imgscale={"150px"}
+                            avatarscale={"150px"}
                             clickHandler={() =>
                                 this.setState({ isUloaderVisible: true })
                             }
                         />
                     }
-                    bioEditor={<BioEditor bio={this.state.bio} />}
+                    bioEditor={
+                        <BioEditor
+                            bio={this.state.bio}
+                            bioEditMode={this.state.bioEditMode}
+                            setEditMode={() =>
+                                this.setState({ bioEditMode: true })
+                            }
+                            onChangeTxt={e => this.setState({ bio: e.value })}
+                        />
+                    }
                 />
 
                 {this.state.isUloaderVisible && (
@@ -80,7 +94,7 @@ export default class App extends React.Component {
                         }
                         fileChange={e => this.fileUpload(e)}
                         avatar={this.state.avatar}
-                        imgscale={"150px"}
+                        avatarscale={"75px"}
                     />
                 )}
             </div>

@@ -28,6 +28,9 @@ const MainStyle = {
         display: "inline",
         float: "right"
     },
+    avatar: {
+        borderRadius: "10px"
+    },
     uploadimage: {
         width: "550px",
         height: "250px",
@@ -53,6 +56,7 @@ const MainStyle = {
         width: "200px",
         height: "125px"
     },
+    biotxt: {},
     box: {
         textAlign: "right",
         marginRight: "55px",
