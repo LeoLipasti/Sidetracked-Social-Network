@@ -165,7 +165,7 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.get("/user", async (req, res) => {
+app.get("/user", checkUser, async (req, res) => {
     try {
         const foundUser = await db.findUser(req.session.userId);
         const userdata = {};
@@ -190,7 +190,10 @@ app.get("/user", async (req, res) => {
     }
 });
 
-app.post("/user", uploader.single("file"), s3.upload, async function(req, res) {
+app.post("/user", checkUser, uploader.single("file"), s3.upload, async function(
+    req,
+    res
+) {
     //If nothing went wrong the file is already in the uploads directory
     try {
         const url = config.s3Url + req.file.filename;
@@ -226,4 +229,12 @@ if (require.main == module) {
     app.listen(process.env.PORT || 8080, () =>
         console.log("SocialNetwork-Sidetracked")
     );
+}
+
+function checkUser(req, res, next) {
+    if (!req.session.userId) {
+        res.sendStatus(403);
+    } else {
+        next();
+    }
 }

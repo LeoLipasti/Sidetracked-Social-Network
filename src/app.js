@@ -6,6 +6,9 @@ import axios from "./axios";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 
+import Profile from "./profile";
+import BioEditor from "./bioeditor";
+
 import style from "./styling.js";
 
 export default class App extends React.Component {
@@ -46,10 +49,30 @@ export default class App extends React.Component {
                     avatar={this.state.avatar}
                     first={this.state.first}
                     last={this.state.last}
+                    imgscale={"75px"}
                     clickHandler={() =>
                         this.setState({ isUloaderVisible: true })
                     }
                 />
+                {/* Profile */}
+                <Profile
+                    first={this.state.first}
+                    last={this.state.last}
+                    profilePic={
+                        <ProfilePic
+                            id={this.state.id}
+                            avatar={this.state.avatar}
+                            first={this.state.first}
+                            last={this.state.last}
+                            imgscale={"150px"}
+                            clickHandler={() =>
+                                this.setState({ isUloaderVisible: true })
+                            }
+                        />
+                    }
+                    bioEditor={<BioEditor bio={this.state.bio} />}
+                />
+
                 {this.state.isUloaderVisible && (
                     <Uploader
                         clickHandler={() =>
@@ -57,6 +80,7 @@ export default class App extends React.Component {
                         }
                         fileChange={e => this.fileUpload(e)}
                         avatar={this.state.avatar}
+                        imgscale={"150px"}
                     />
                 )}
             </div>

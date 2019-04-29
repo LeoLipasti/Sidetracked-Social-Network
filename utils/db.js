@@ -24,7 +24,7 @@ exports.findUser = function findUser(id) {
 };
 
 exports.queryLogin = function queryLogin(email) {
-    let q = `SELECT password FROM users WHERE lower(email) = lower($1)`;
+    let q = `SELECT password,id FROM users WHERE lower(email) = lower($1)`;
     let params = [email];
     return db.query(q, params);
 };

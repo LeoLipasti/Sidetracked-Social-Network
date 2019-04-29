@@ -1,18 +1,24 @@
 const MainStyle = {
     body: {
         width: "100vw",
-        height: "100vh"
+        height: "100vh",
+        backgroundColor: "#ccccb3",
+        textAlign: "center",
+        margin: "0"
     },
     userbox: {
         width: "300px",
         margin: "30px auto",
-        backgroundColor: "#44014C",
+        backgroundColor: "#a3a375",
         minHeight: "200px",
         boxSizing: "border-box",
         color: "white"
     },
     error: {
         color: "red"
+    },
+    hidden: {
+        display: "none"
     },
     usericon: {
         width: "150px",
@@ -25,7 +31,7 @@ const MainStyle = {
     uploadimage: {
         width: "550px",
         height: "250px",
-        backgroundColor: "yellow",
+        backgroundColor: "#a3a375",
         textAlign: "center",
         position: "absolute"
     },
@@ -36,6 +42,21 @@ const MainStyle = {
         position: "absolute",
         top: "0",
         right: "0"
+    },
+    profile: {
+        width: "300px",
+        height: "225px",
+        backgroundColor: "#a3a375",
+        borderRadius: "5px"
+    },
+    bioedit: {
+        width: "200px",
+        height: "125px"
+    },
+    box: {
+        textAlign: "right",
+        marginRight: "55px",
+        borderRadius: "5px"
     }
 };
 

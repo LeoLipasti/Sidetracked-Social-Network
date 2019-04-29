@@ -31,18 +31,20 @@ export default class Login extends React.Component {
                 {this.state.error && (
                     <div style={style.data.error}>Something went wrong!</div>
                 )}
-                <p>
-                    Email
-                    <input name="email" onChange={handleInput} />
-                </p>
-                <p>
-                    Password
-                    <input
-                        name="passw"
-                        onChange={handleInput}
-                        type="password"
-                    />
-                </p>
+                <div style={style.data.box}>
+                    <p>
+                        Email
+                        <input name="email" onChange={handleInput} />
+                    </p>
+                    <p>
+                        Password
+                        <input
+                            name="passw"
+                            onChange={handleInput}
+                            type="password"
+                        />
+                    </p>
+                </div>
                 <button onClick={e => this.submit()}>Login</button>
             </div>
         );
