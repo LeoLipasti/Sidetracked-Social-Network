@@ -9,7 +9,7 @@ export default function EditBio({
     onChangeTxt,
     postBio
 }) {
-    if (bio != undefined) {
+    if (bio != undefined && !bioEditMode) {
         return (
             <div style={style.data.biotxt}>
                 <div>
