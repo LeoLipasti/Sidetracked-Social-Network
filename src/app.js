@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { BrowserRouter, Router, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 import axios from "./axios";
+
+import OtherProfile from "./otherprofile";
 
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
@@ -21,7 +23,6 @@ export default class App extends React.Component {
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
             this.setState(data);
-            console.log(this.state.bio);
         });
     }
     fileUpload(file) {
@@ -67,36 +68,55 @@ export default class App extends React.Component {
                     }
                 />
                 {/* Profile */}
-                <Profile
-                    first={this.state.first}
-                    last={this.state.last}
-                    profilePic={
-                        <ProfilePic
-                            id={this.state.id}
-                            avatar={this.state.avatar}
-                            first={this.state.first}
-                            last={this.state.last}
-                            avatarscale={"150px"}
-                            clickHandler={() =>
-                                this.setState({ isUloaderVisible: true })
-                            }
+                <BrowserRouter>
+                    <div>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    profilePic={
+                                        <ProfilePic
+                                            id={this.state.id}
+                                            avatar={this.state.avatar}
+                                            first={this.state.first}
+                                            last={this.state.last}
+                                            avatarscale={"150px"}
+                                            clickHandler={() =>
+                                                this.setState({
+                                                    isUloaderVisible: true
+                                                })
+                                            }
+                                        />
+                                    }
+                                    bioEditor={
+                                        <EditBio
+                                            bio={this.state.bio}
+                                            onChangeTxt={e =>
+                                                this.setState({
+                                                    bio: e.target.value
+                                                })
+                                            }
+                                            bioEditMode={this.state.bioEditMode}
+                                            clickHandler={() =>
+                                                this.setState({
+                                                    bioEditMode: true
+                                                })
+                                            }
+                                            postBio={() => this.bioUpload()}
+                                        />
+                                    }
+                                />
+                            )}
                         />
-                    }
-                    bioEditor={
-                        <EditBio
-                            bio={this.state.bio}
-                            onChangeTxt={e =>
-                                this.setState({ bio: e.target.value })
-                            }
-                            bioEditMode={this.state.bioEditMode}
-                            clickHandler={() =>
-                                this.setState({ bioEditMode: true })
-                            }
-                            postBio={() => this.bioUpload()}
+                        <Route
+                            path="/static/user/:id"
+                            component={OtherProfile}
                         />
-                    }
-                />
-
+                    </div>
+                </BrowserRouter>
                 {this.state.isUloaderVisible && (
                     <Uploader
                         clickHandler={() =>

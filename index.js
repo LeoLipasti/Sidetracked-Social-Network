@@ -167,6 +167,10 @@ app.post("/register", async (req, res) => {
     }
 });
 
+app.get("static/user/:something", checkUser, async (req, res) => {
+    console.log("staticpath");
+});
+
 app.get("/user", checkUser, async (req, res) => {
     try {
         const foundUser = await db.findUser(req.session.userId);
@@ -202,7 +206,6 @@ app.post("/user", checkUser, uploader.single("file"), s3.upload, async function(
         db.updateBio(req.body.bio, req.session.userId);
     }
     if (req.file != undefined) {
-        //If nothing went wrong the file is already in the uploads directory
         try {
             const url = config.s3Url + req.file.filename;
             await db.updateAvatar(url, req.session.userId);
@@ -213,6 +216,7 @@ app.post("/user", checkUser, uploader.single("file"), s3.upload, async function(
             console.log(err);
         }
     } else {
+        // bio was updated / no file upload
         res.sendStatus(200);
     }
 });

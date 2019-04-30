@@ -21,9 +21,9 @@ export default function EditBio({
     } else if (!bioEditMode) {
         return (
             <div>
-                <div onClick={clickHandler}>
+                <p onClick={clickHandler}>
                     write a short bio and describe yourself to others!
-                </div>
+                </p>
             </div>
         );
     } else {

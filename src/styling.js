@@ -1,3 +1,5 @@
+// Im planning to make different color themes but thats for bonus feature time
+
 const MainStyle = {
     body: {
         width: "100vw",
@@ -64,9 +66,5 @@ const MainStyle = {
         borderRadius: "5px"
     }
 };
-
-//const SomeOther = {
-//    color: "red"
-//};
 
 module.exports = { data: MainStyle };
