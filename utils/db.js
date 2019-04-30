@@ -17,8 +17,14 @@ exports.updateAvatar = function updateAvatar(url, id) {
     return db.query(q, params);
 };
 
+exports.updateBio = function updateBio(url, id) {
+    let q = `UPDATE users SET bio = $1 WHERE id=$2`;
+    let params = [url, id];
+    return db.query(q, params);
+};
+
 exports.findUser = function findUser(id) {
-    let q = `SELECT firstname AS first, lastname AS last, avatar,bio FROM users WHERE id=$1`;
+    let q = `SELECT firstname AS first, lastname AS last, avatar, bio FROM users WHERE id=$1`;
     let params = [id];
     return db.query(q, params);
 };

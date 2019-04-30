@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import { BrowserRouter, Router, Link } from "react-router-dom";
+
 import axios from "./axios";
 
 import ProfilePic from "./profilepic";
@@ -15,18 +17,18 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = { bioEditMode: false };
-        console.log(this.state.bioEditMode);
     }
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
             this.setState(data);
-            console.log(this.state.bioEditMode);
+            console.log(this.state.bio);
         });
     }
     fileUpload(file) {
         this.setState({ id: undefined });
         let formData = new FormData();
         formData.append("file", file.target.files[0]);
+        formData.append("bio", this.state.bio);
         axios
             .post("/user", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
@@ -39,9 +41,8 @@ export default class App extends React.Component {
                 this.setState({ error: "error" });
             });
     }
-    bioUpload(txt) {
+    bioUpload() {
         this.setState({ bioEditMode: false });
-        console.log(this.state.bio);
         let formData = new FormData();
         formData.append("bio", this.state.bio);
         axios.post("/user", formData, {

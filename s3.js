@@ -15,10 +15,11 @@ const client = knox.createClient({
 });
 
 exports.upload = function(req, res, next) {
-    console.log("UPLOAD");
     if (!req.file) {
         console.log("s3Request: no req.file");
-        return res.sendStatus(500);
+        // no req image file. however we can continue because its most likely bio update
+        next();
+        return;
     }
     const s3Request = client.put(req.file.filename, {
         "Content-Type": req.file.mimetype,

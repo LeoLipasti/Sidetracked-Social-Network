@@ -29,7 +29,12 @@ export default function EditBio({
     } else {
         return (
             <div style={style.data.bioedit}>
-                <textarea rows="5" cols="50" onChange={e => onChangeTxt(e)} />
+                <textarea
+                    rows="5"
+                    value={bio}
+                    cols="50"
+                    onChange={e => onChangeTxt(e)}
+                />
                 <button onClick={postBio} style={style.data.button}>
                     Update
                 </button>

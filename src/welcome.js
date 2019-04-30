@@ -23,7 +23,8 @@ export default class Welcome extends React.Component {
                         <div>
                             <p>
                                 <Link to="/register">{"I'm a New User"}</Link>
-                                <div> </div>
+                            </p>
+                            <p>
                                 <Link to="/login">Login</Link>
                             </p>
                             <Route

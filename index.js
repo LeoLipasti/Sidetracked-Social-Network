@@ -174,8 +174,8 @@ app.get("/user", checkUser, async (req, res) => {
         userdata.first = foundUser.rows[0].first;
         userdata.last = foundUser.rows[0].last;
         userdata.avatar = foundUser.rows[0].avatar;
+        userdata.bio = foundUser.rows[0].bio;
         userdata.id = req.session.userId;
-        userdata.bio = req.session.bio;
         userdata.bioEditMode = false;
         if (!userdata.first || !userdata.last) {
             throw "no first or lastname found with Id";
@@ -198,17 +198,22 @@ app.post("/user", checkUser, uploader.single("file"), s3.upload, async function(
     req,
     res
 ) {
-    //If nothing went wrong the file is already in the uploads directory
-    try {
-        const url = config.s3Url + req.file.filename;
-        console.log(url);
-        await db.updateAvatar(url, req.session.userId);
-        res.json({
-            data: { url: url, id: req.session.userId }
-        });
-        console.log("response sent: " + { url: url, id: req.session.userId });
-    } catch (err) {
-        console.log(err);
+    if (req.body != undefined) {
+        db.updateBio(req.body.bio, req.session.userId);
+    }
+    if (req.file != undefined) {
+        //If nothing went wrong the file is already in the uploads directory
+        try {
+            const url = config.s3Url + req.file.filename;
+            await db.updateAvatar(url, req.session.userId);
+            res.json({
+                data: { url: url, id: req.session.userId }
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    } else {
+        res.sendStatus(200);
     }
 });
 
