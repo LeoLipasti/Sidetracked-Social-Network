@@ -2,8 +2,6 @@ import React from "react";
 
 import style from "./styling.js";
 
-//import avatarplholder from "./images/placeholder.png";
-
 export default function ProfilePic({
     avatar,
     first,

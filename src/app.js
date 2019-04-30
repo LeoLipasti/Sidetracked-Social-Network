@@ -7,7 +7,7 @@ import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 
 import Profile from "./profile";
-import BioEditor from "./bioeditor";
+import EditBio from "./bioeditor";
 
 import style from "./styling.js";
 
@@ -80,13 +80,14 @@ export default class App extends React.Component {
                         />
                     }
                     bioEditor={
-                        <BioEditor
+                        <EditBio
                             bio={this.state.bio}
+                            avatarscale={"150px"}
+                            onChangeTxt={e => this.setState({ bio: e.value })}
                             bioEditMode={this.state.bioEditMode}
-                            setEditMode={() =>
+                            clickHandler={() =>
                                 this.setState({ bioEditMode: true })
                             }
-                            onChangeTxt={e => this.setState({ bio: e.value })}
                         />
                     }
                 />
