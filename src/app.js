@@ -39,9 +39,10 @@ export default class App extends React.Component {
                 this.setState({ error: "error" });
             });
     }
-    textUpload(txt) {
+    bioUpload(txt) {
+        this.setState({ bioEditMode: false });
         let formData = new FormData();
-        formData.append("txt", txt);
+        formData.append("bio", this.state.bio);
         axios.post("/user", formData, {
             headers: { "Content-Type": "multipart/form-data" }
         });
@@ -82,12 +83,12 @@ export default class App extends React.Component {
                     bioEditor={
                         <EditBio
                             bio={this.state.bio}
-                            avatarscale={"150px"}
                             onChangeTxt={e => this.setState({ bio: e.value })}
                             bioEditMode={this.state.bioEditMode}
                             clickHandler={() =>
                                 this.setState({ bioEditMode: true })
                             }
+                            postBio={() => this.bioUpload()}
                         />
                     }
                 />

@@ -20,6 +20,7 @@ const MainStyle = {
     hidden: {
         display: "none"
     },
+    button: {},
     usericon: {
         width: "150px",
         height: "150px",

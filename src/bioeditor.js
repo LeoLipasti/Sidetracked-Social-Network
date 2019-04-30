@@ -6,7 +6,8 @@ export default function EditBio({
     clickHandler,
     bioEditMode,
     bio,
-    onChangeTxt
+    onChangeTxt,
+    postBio
 }) {
     if (bio != undefined) {
         return (
@@ -19,7 +20,7 @@ export default function EditBio({
         );
     } else if (!bioEditMode) {
         return (
-            <div style={style.data.usericon}>
+            <div>
                 <div onClick={clickHandler}>
                     write a short bio and describe yourself to others!
                 </div>
@@ -29,7 +30,9 @@ export default function EditBio({
         return (
             <div style={style.data.bioedit}>
                 <textarea rows="5" cols="50" onChange={e => onChangeTxt(e)} />
-                <button />
+                <button onClick={postBio} style={style.data.button}>
+                    Update
+                </button>
             </div>
         );
     }
