@@ -14,14 +14,16 @@ export default function EditBio({
             <div style={style.data.biotxt}>
                 <div>
                     {bio}
-                    <p onClick={clickHandler}>{"[ Edit ]"}</p>
+                    <p onClick={clickHandler} className="infotext">
+                        {"[ Edit ]"}
+                    </p>
                 </div>
             </div>
         );
     } else if (!bioEditMode) {
         return (
             <div>
-                <p onClick={clickHandler}>
+                <p onClick={clickHandler} className="infotext">
                     write a short bio and describe yourself to others!
                 </p>
             </div>

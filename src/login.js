@@ -27,9 +27,11 @@ export default class Login extends React.Component {
         };
         return (
             <div>
-                <p>Login with your email and password</p>
+                <p className="infotext">login with your email and password</p>
                 {this.state.error && (
-                    <div style={style.data.error}>Something went wrong!</div>
+                    <div style={style.data.error} className="infotext">
+                        Something went wrong!
+                    </div>
                 )}
                 <div style={style.data.box}>
                     <p>
@@ -45,7 +47,7 @@ export default class Login extends React.Component {
                         />
                     </p>
                 </div>
-                <button onClick={e => this.submit()} style={style.data.button}>
+                <button onClick={() => this.submit()} style={style.data.button}>
                     Login
                 </button>
             </div>

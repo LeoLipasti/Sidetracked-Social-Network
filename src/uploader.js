@@ -10,7 +10,9 @@ export default function Uploader({
 }) {
     return (
         <div style={style.data.uploadimage}>
-            Upload your own avatar or choose one below
+            <p className="infotext">
+                Upload your own avatar or choose one below
+            </p>
             <label htmlFor="file-upload">
                 <img
                     src={avatar || "/images/placeholder.png"}

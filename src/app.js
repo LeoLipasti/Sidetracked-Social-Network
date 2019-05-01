@@ -52,13 +52,24 @@ export default class App extends React.Component {
     }
     render() {
         if (!this.state.id) {
-            return <img src={"./logo.gif"} width="22px" />;
-            // TODO return <img src="/spinner.gif">
+            return (
+                <div style={style.data.body}>
+                    <img src={"./logo.gif"} width="42px" />
+                    <ProfilePic
+                        displstyle={style.data.usericon}
+                        avatar={"./spinner.gif"}
+                        first={this.state.first}
+                        last={this.state.last}
+                        avatarscale={"75px"}
+                    />
+                </div>
+            );
         }
         return (
-            <div style={style.data.appbody}>
-                <img src={"./logo.gif"} width="22px" />
+            <div style={style.data.body}>
+                <img src={"./logo.gif"} width="42px" />
                 <ProfilePic
+                    displstyle={style.data.usericon}
                     avatar={this.state.avatar}
                     first={this.state.first}
                     last={this.state.last}

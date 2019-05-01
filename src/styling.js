@@ -4,17 +4,18 @@ const MainStyle = {
     body: {
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#ccccb3",
-        textAlign: "center",
-        margin: "0"
+        backgroundColor: "#ccccb3"
     },
     userbox: {
-        width: "300px",
-        margin: "30px auto",
+        width: "400px",
+        height: "500px",
+        margin: "auto",
         backgroundColor: "#a3a375",
         minHeight: "200px",
         boxSizing: "border-box",
-        color: "white"
+        color: "white",
+        borderRadius: "5px",
+        textAlign: "center"
     },
     error: {
         color: "red"
@@ -24,9 +25,9 @@ const MainStyle = {
     },
     button: {},
     usericon: {
-        width: "150px",
-        height: "150px",
-        backgroundColor: "red",
+        width: "100px",
+        height: "100px",
+        padding: "5px",
         textAlign: "center",
         display: "inline",
         float: "right"
@@ -36,10 +37,14 @@ const MainStyle = {
     },
     uploadimage: {
         width: "550px",
-        height: "250px",
+        height: "180px",
+        marginLeft: "calc(100%-275px)",
         backgroundColor: "#a3a375",
         textAlign: "center",
-        position: "absolute"
+        position: "absolute",
+        border: "1px solid black",
+        padding: "5px",
+        borderRadius: "5px"
     },
     uploadimage_close: {
         width: "16px",
@@ -47,13 +52,27 @@ const MainStyle = {
         textAlign: "right",
         position: "absolute",
         top: "0",
-        right: "0"
+        right: "5px"
     },
     profile: {
-        width: "300px",
+        width: "100%",
         height: "225px",
         backgroundColor: "#a3a375",
         borderRadius: "5px"
+    },
+    profilepic: {
+        width: "175px",
+        height: "225px",
+        display: "inline",
+        float: "left",
+        padding: "15px"
+    },
+    profilebio: {
+        width: "calc(100%-150px)",
+        height: "225px",
+        display: "inline",
+        float: "left",
+        padding: "30px"
     },
     bioedit: {
         width: "200px",
@@ -62,7 +81,7 @@ const MainStyle = {
     biotxt: {},
     box: {
         textAlign: "right",
-        marginRight: "55px",
+        marginRight: "79px",
         borderRadius: "5px"
     }
 };

@@ -7,11 +7,11 @@ export default function ProfilePic({
     first,
     last,
     clickHandler,
-    avatarscale
+    avatarscale,
+    displstyle
 }) {
     return (
-        <div style={style.data.usericon}>
-            <p>user icon here</p>
+        <div style={displstyle}>
             <img
                 onClick={clickHandler}
                 src={avatar || "/images/placeholder.png"}

@@ -32,7 +32,9 @@ export default class Registration extends React.Component {
         return (
             <div>
                 {this.state.error && (
-                    <div style={style.data.error}>Something went wrong!</div>
+                    <div style={style.data.error} className="infotext">
+                        Something went wrong!
+                    </div>
                 )}
                 <div style={style.data.box}>
                     <p>
