@@ -23,7 +23,18 @@ const MainStyle = {
     hidden: {
         display: "none"
     },
-    button: {},
+    button: { cursor: "pointer" },
+    button_friendrequest: {
+        width: "150px",
+        height: "25px",
+        backgroundColor: "black",
+        color: "white",
+        fontFamily: "'EB Garamond', serif",
+        fontSize: "14px",
+        textAlign: "center",
+        paddingTop: "2px",
+        cursor: "pointer"
+    },
     usericon: {
         width: "100px",
         height: "100px",

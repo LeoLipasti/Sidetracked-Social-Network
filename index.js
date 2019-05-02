@@ -177,7 +177,7 @@ app.get("/static/user/:something", checkUser, async (req, res) => {
         try {
             const url = req.url.split("/");
             const parsedurl = parseInt(url[url.length - 1]);
-            if (parsedurl === NaN) {
+            if (isNaN(parsedurl)) {
                 throw "NaN";
             }
             if (req.session.userId === parsedurl) {

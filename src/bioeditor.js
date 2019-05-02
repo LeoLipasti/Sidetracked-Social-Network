@@ -14,7 +14,11 @@ export default function EditBio({
             <div style={style.data.biotxt}>
                 <div>
                     {bio}
-                    <p onClick={clickHandler} className="infotext">
+                    <p
+                        onClick={clickHandler}
+                        className="infotext"
+                        style={style.data.button}
+                    >
                         {"[ Edit ]"}
                     </p>
                 </div>
@@ -23,7 +27,11 @@ export default function EditBio({
     } else if (!bioEditMode) {
         return (
             <div>
-                <p onClick={clickHandler} className="infotext">
+                <p
+                    onClick={clickHandler}
+                    className="infotext"
+                    style={style.data.button}
+                >
                     write a short bio and describe yourself to others!
                 </p>
             </div>

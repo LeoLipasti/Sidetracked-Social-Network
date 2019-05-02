@@ -3,6 +3,7 @@ import axios from "./axios";
 
 import Profile from "./profile";
 import ProfilePic from "./profilepic";
+import FriendRequester from "./friendrequest";
 
 import { Redirect } from "react-router-dom";
 
@@ -15,6 +16,7 @@ export default class OtherProfile extends React.Component {
     }
     componentDidMount() {
         const id = this.props.match.params.id;
+        this.friendRequests();
         axios
             .get("/static/user/" + id, { headers: { getme: "userprofile" } })
             .then(({ data }) => {
@@ -24,6 +26,13 @@ export default class OtherProfile extends React.Component {
                 }
             });
     }
+    friendRequests(action) {
+        if (!action) {
+            axios.get("/static/friendrequests/", {
+                headers: { getme: "userprofile" }
+            });
+        }
+    }
     render() {
         if (!this.state.ownid) {
             return (
@@ -32,13 +41,21 @@ export default class OtherProfile extends React.Component {
                         first={this.state.first}
                         last={this.state.last}
                         profilePic={
-                            <ProfilePic
-                                id={this.state.id}
-                                avatar={this.state.avatar}
-                                first={this.state.first}
-                                last={this.state.last}
-                                avatarscale={"150px"}
-                            />
+                            <div>
+                                <ProfilePic
+                                    id={this.state.id}
+                                    avatar={this.state.avatar}
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    avatarscale={"150px"}
+                                />
+                                <FriendRequester
+                                    id={this.state.friends}
+                                    clickHandler={() =>
+                                        this.friendRequests("action")
+                                    }
+                                />
+                            </div>
                         }
                         bioEditor={
                             <div style={style.data.biotxt}>
