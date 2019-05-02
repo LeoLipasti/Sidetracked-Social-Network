@@ -14,7 +14,7 @@ export default function ProfilePic({
         <div style={displstyle}>
             <img
                 onClick={clickHandler}
-                src={avatar || "/images/placeholder.png"}
+                src={avatar || "/placeholder.png"}
                 alt={first + " " + last}
                 width={avatarscale}
                 height={avatarscale}

@@ -168,21 +168,22 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/static/user/:something", checkUser, async (req, res) => {
-    console.log(req.headers);
     if (!req.headers.getme) {
         // get is not coming from app page
-        console.log("not from app page");
+        console.log("request not coming from app page");
         res.redirect("/");
     } else {
-        const url = req.url.split("/");
-        const parsedurl = parseInt(url[url.length - 1]);
         const data = {};
         try {
+            const url = req.url.split("/");
+            const parsedurl = parseInt(url[url.length - 1]);
             if (parsedurl === NaN) {
                 throw "NaN";
             }
+            if (req.session.userId === parsedurl) {
+                throw "Ownprofile";
+            }
             const founduser = await db.findUser(parsedurl);
-            console.log(founduser.rows);
             if (founduser.rows === undefined) {
                 throw "Not Found";
             }
@@ -190,16 +191,17 @@ app.get("/static/user/:something", checkUser, async (req, res) => {
             data.last = founduser.rows[0].last;
             data.avatar = founduser.rows[0].avatar;
             data.bio = founduser.rows[0].bio;
-            console.log(data);
             res.send(data);
         } catch (err) {
-            console.log(err);
-            data.first = "User not ";
-            data.last = "found.";
-            data.avatar = "/unknownuser.png";
-            data.bio = undefined;
-            console.log(data);
-            res.send(data);
+            if (err === "Ownprofile") {
+                res.send(data);
+            } else {
+                data.first = "User not ";
+                data.last = "found.";
+                data.avatar = "/usernotfound.png";
+                data.bio = undefined;
+                res.send(data);
+            }
         }
     }
 });
