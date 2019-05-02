@@ -167,34 +167,72 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.get("static/user/:something", checkUser, async (req, res) => {
-    console.log("staticpath");
+app.get("/static/user/:something", checkUser, async (req, res) => {
+    console.log(req.headers);
+    if (!req.headers.getme) {
+        // get is not coming from app page
+        console.log("not from app page");
+        res.redirect("/");
+    } else {
+        const url = req.url.split("/");
+        const parsedurl = parseInt(url[url.length - 1]);
+        const data = {};
+        try {
+            if (parsedurl === NaN) {
+                throw "NaN";
+            }
+            const founduser = await db.findUser(parsedurl);
+            console.log(founduser.rows);
+            if (founduser.rows === undefined) {
+                throw "Not Found";
+            }
+            data.first = founduser.rows[0].first;
+            data.last = founduser.rows[0].last;
+            data.avatar = founduser.rows[0].avatar;
+            data.bio = founduser.rows[0].bio;
+            console.log(data);
+            res.send(data);
+        } catch (err) {
+            console.log(err);
+            data.first = "User not ";
+            data.last = "found.";
+            data.avatar = "/unknownuser.png";
+            data.bio = undefined;
+            console.log(data);
+            res.send(data);
+        }
+    }
 });
 
 app.get("/user", checkUser, async (req, res) => {
-    try {
-        const foundUser = await db.findUser(req.session.userId);
-        const userdata = {};
-        userdata.first = foundUser.rows[0].first;
-        userdata.last = foundUser.rows[0].last;
-        userdata.avatar = foundUser.rows[0].avatar;
-        userdata.bio = foundUser.rows[0].bio;
-        userdata.id = req.session.userId;
-        userdata.bioEditMode = false;
-        if (!userdata.first || !userdata.last) {
-            throw "no first or lastname found with Id";
+    if (!req.headers.getme) {
+        // user typed /user as url, output is not what we want so redirecting to /
+        res.redirect("/");
+    } else {
+        try {
+            const foundUser = await db.findUser(req.session.userId);
+            const userdata = {};
+            userdata.first = foundUser.rows[0].first;
+            userdata.last = foundUser.rows[0].last;
+            userdata.avatar = foundUser.rows[0].avatar;
+            userdata.bio = foundUser.rows[0].bio;
+            userdata.id = req.session.userId;
+            userdata.bioEditMode = false;
+            if (!userdata.first || !userdata.last) {
+                throw "no first or lastname found with Id";
+            }
+            res.send(userdata);
+        } catch (err) {
+            // cookie goes wrong, mostly should happen only while testing if table is cleared or user is deleted
+            console.log(
+                "cookie error: " +
+                    err +
+                    " !!! Cookie now changed to undefined for a userId: " +
+                    req.session.userId
+            );
+            req.session.userId = undefined;
+            res.redirect("/welcome");
         }
-        res.send(userdata);
-    } catch (err) {
-        // cookie goes wrong, mostly should happen only while testing if table is cleared or user is deleted
-        console.log(
-            "cookie error: " +
-                err +
-                " !!! Cookie now changed to undefined for a userId: " +
-                req.session.userId
-        );
-        req.session.userId = undefined;
-        res.redirect("/welcome");
     }
 });
 

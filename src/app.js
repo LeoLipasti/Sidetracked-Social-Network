@@ -21,9 +21,11 @@ export default class App extends React.Component {
         this.state = { bioEditMode: false };
     }
     componentDidMount() {
-        axios.get("/user").then(({ data }) => {
-            this.setState(data);
-        });
+        axios
+            .get("/user", { headers: { getme: "userprofile" } })
+            .then(({ data }) => {
+                this.setState(data);
+            });
     }
     fileUpload(file) {
         this.setState({ id: undefined });
@@ -122,10 +124,7 @@ export default class App extends React.Component {
                                 />
                             )}
                         />
-                        <Route
-                            path="/static/user/:id"
-                            component={OtherProfile}
-                        />
+                        <Route path="/user/:id" component={OtherProfile} />
                     </div>
                 </BrowserRouter>
                 {this.state.isUloaderVisible && (
