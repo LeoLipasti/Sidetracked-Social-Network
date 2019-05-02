@@ -15,9 +15,8 @@ export default class OtherProfile extends React.Component {
         const id = this.props.match.params.id;
         axios
             .get("/static/user/" + id, { headers: { getme: "userprofile" } })
-            .then(results => {
-                this.state = results.data;
-                console.log(this.state);
+            .then(({ data }) => {
+                this.setState(data);
             });
     }
     render() {
