@@ -12,25 +12,70 @@ import style from "./styling.js";
 export default class OtherProfile extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { ownid: false };
+        this.state = { ownid: false, status: "notrequested" };
     }
     componentDidMount() {
         const id = this.props.match.params.id;
-        this.friendRequests();
         axios
             .get("/static/user/" + id, { headers: { getme: "userprofile" } })
             .then(({ data }) => {
                 this.setState(data);
                 if (this.state.first === undefined) {
                     this.setState({ ownid: true });
+                } else {
+                    this.friendRequests();
                 }
             });
     }
     friendRequests(action) {
         if (!action) {
-            axios.get("/static/friendrequests/", {
-                headers: { getme: "userprofile" }
-            });
+            axios
+                .get("/static/friendrequests", {
+                    headers: {
+                        getme: "friendships",
+                        id: this.props.match.params.id
+                    }
+                })
+                .then(({ data }) => {
+                    if (!data.norequests) {
+                        if (!data.friends) {
+                            if (data.requester === this.props.match.params.id) {
+                                this.setState({ status: "acceptrequest" });
+                            } else {
+                                this.setState({ status: "requestsent" });
+                            }
+                        } else {
+                            this.setState({ status: "friends" });
+                        }
+                    } else {
+                        this.setState({ status: "notfriends" });
+                    }
+                });
+        } else {
+            // action = POST
+            this.setState({ status: "pendingrequest" });
+            axios
+                .post("/static/friendrequests", {
+                    headers: {
+                        getme: "friendships",
+                        id: this.props.match.params.id
+                    }
+                })
+                .then(({ data }) => {
+                    if (!data.norequests) {
+                        if (!data.friends) {
+                            if (data.requester === this.props.match.params.id) {
+                                this.setState({ status: "acceptrequest" });
+                            } else {
+                                this.setState({ status: "requestsent" });
+                            }
+                        } else {
+                            this.setState({ status: "friends" });
+                        }
+                    } else {
+                        this.setState({ status: "notfriends" });
+                    }
+                });
         }
     }
     render() {
@@ -43,14 +88,14 @@ export default class OtherProfile extends React.Component {
                         profilePic={
                             <div>
                                 <ProfilePic
-                                    id={this.state.id}
+                                    id={this.props.match.params.id}
                                     avatar={this.state.avatar}
                                     first={this.state.first}
                                     last={this.state.last}
                                     avatarscale={"150px"}
                                 />
                                 <FriendRequester
-                                    id={this.state.friends}
+                                    status={this.state.status}
                                     clickHandler={() =>
                                         this.friendRequests("action")
                                     }

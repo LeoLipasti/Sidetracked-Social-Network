@@ -167,6 +167,56 @@ app.post("/register", async (req, res) => {
     }
 });
 
+app.get("/static/friendrequests", checkUser, async (req, res) => {
+    if (!req.headers.getme) {
+        // get is not coming from app page
+        console.log("request not coming from app page");
+        res.redirect("/");
+    } else {
+        let data = {};
+        const uniqcode = ["U" + req.headers.id, "U" + req.session.userId]
+            .sort()
+            .join("");
+        try {
+            const friendstatus = await db.queryFriendship(uniqcode);
+            data = {
+                friends: friendstatus.rows[0].status,
+                requester: friendstatus.rows[0].requester
+            };
+            res.send(data);
+        } catch (err) {
+            // no friendship data yet
+            data = { norequests: true };
+            res.send(data);
+        }
+    }
+});
+
+app.post("/static/friendrequests", checkUser, async (req, res) => {
+    if (!req.headers.getme) {
+        // get is not coming from app page
+        console.log("request not coming from app page");
+        res.redirect("/");
+    } else {
+        let data = {};
+        const uniqcode = ["U" + req.headers.id, "U" + req.session.userId]
+            .sort()
+            .join("");
+        try {
+            const friendstatus = await db.queryFriendship(uniqcode);
+            data = {
+                friends: friendstatus.rows[0].status,
+                requester: friendstatus.rows[0].requester
+            };
+            res.send(data);
+        } catch (err) {
+            // no friendship data yet
+            data = { norequests: true };
+            res.send(data);
+        }
+    }
+});
+
 app.get("/static/user/:something", checkUser, async (req, res) => {
     if (!req.headers.getme) {
         // get is not coming from app page

@@ -9,3 +9,14 @@ CREATE TABLE users(
     email VARCHAR(250) UNIQUE NOT NULL,
     password VARCHAR(60) NOT NULL
 );
+
+DROP TABLE IF EXISTS friendships;
+
+CREATE TABLE friendships(
+    id SERIAL PRIMARY KEY,
+    uniqcode VARCHAR(250) NOT NULL UNIQUE,
+    requester VARCHAR(250),
+    receiver VARCHAR(250),
+    accepted BOOLEAN NOT NULL,
+    statushistory VARCHAR(250)
+);

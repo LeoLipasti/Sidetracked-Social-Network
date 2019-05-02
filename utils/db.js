@@ -40,3 +40,26 @@ exports.queryLoginID = function queryLoginID(email) {
     let params = [email];
     return db.query(q, params);
 };
+
+exports.queryFriendship = function queryFriendship(uniqcode) {
+    let q = `SELECT accepted, requester FROM friendships WHERE uniqcode = $1`;
+    let params = [uniqcode];
+    return db.query(q, params);
+};
+
+exports.modifyFriendship = function modifyFriendship(
+    uniqcode,
+    requester,
+    receiver,
+    accepted
+) {
+    let q = `INSERT INTO friendships (uniqcode, requester, receiver, accepted) VALUES ($1, $2, $3, $4)`;
+    let params = [uniqcode, requester, receiver, accepted];
+    return db.query(q, params);
+};
+
+exports.friendshiplog = function friendshiplog(log, uniqcode) {
+    let q = `UPDATE friendships SET statushistory = statushistory + $1 WHERE uniqcode=$2`;
+    let params = [log, uniqcode];
+    return db.query(q, params);
+};
