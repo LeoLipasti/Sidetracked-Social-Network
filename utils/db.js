@@ -53,8 +53,21 @@ exports.modifyFriendship = function modifyFriendship(
     receiver,
     accepted
 ) {
-    let q = `INSERT INTO friendships (uniqcode, requester, receiver, accepted) VALUES ($1, $2, $3, $4)`;
+    let q = `UPDATE friendships SET requester = $2, receiver = $3, accepted = $4 WHERE uniqcode = $1`;
     let params = [uniqcode, requester, receiver, accepted];
+    return db.query(q, params);
+};
+
+// no friendship data yet - unqcode, requester, receiver, accepted , log
+exports.addFriendship = function addFriendship(
+    uniqcode,
+    requester,
+    receiver,
+    accepted,
+    log
+) {
+    let q = `INSERT INTO friendships (uniqcode, requester, receiver, accepted, statushistory ) VALUES ($1, $2, $3, $4, $5)`;
+    let params = [uniqcode, requester, receiver, accepted, log];
     return db.query(q, params);
 };
 

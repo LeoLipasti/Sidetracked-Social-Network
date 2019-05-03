@@ -5,7 +5,7 @@ const compression = require("compression");
 const db = require("./utils/db");
 const bc = require("./utils/bc");
 
-csurf = require("csurf");
+const csurf = require("csurf");
 
 app.use(express.static("./public"));
 
@@ -192,14 +192,14 @@ app.get("/static/friendrequests", checkUser, async (req, res) => {
     }
 });
 
-app.post("/static/friendrequests", checkUser, async (req, res) => {
-    if (!req.headers.getme) {
+app.post("/static/friendrequests", async (req, res) => {
+    if (!req.body.getme) {
         // post is not coming from app page
         console.log("request not coming from app page");
         res.redirect("/");
     } else {
         let data = {};
-        const uniqcode = ["U" + req.headers.id, "U" + req.session.userId]
+        const uniqcode = ["U" + req.body.id, "U" + req.session.userId]
             .sort()
             .join("");
         try {
@@ -207,47 +207,63 @@ app.post("/static/friendrequests", checkUser, async (req, res) => {
             let requester = friendstatus.rows[0].requester;
             let receiver = friendstatus.rows[0].receiver;
             let accepted = friendstatus.rows[0].accepted;
-            if (requester === 0 || receiver === 0) {
+            console.log(requester);
+            console.log(receiver);
+            console.log(accepted);
+            if (requester == 0 || receiver == 0) {
                 console.log(
                     "existing requests history but blank state - this user is now then requester"
                 );
                 // existing requests history but blank state - this user is now then requester
                 requester = req.session.userId;
-                receiver = req.headers.id;
-            } else if (friendstatus.rows[0].accepted) {
+                receiver = req.body.id;
+            } else if (accepted) {
                 // action is unfriend
                 console.log("action is unfriend");
                 db.friendshiplog(req.session.userId + "unfriend_", uniqcode);
                 accepted = false;
                 requester = 0;
                 receiver = 0;
-            } else if (requester === req.session.userId) {
+            } else if (requester == req.session.userId) {
                 console.log("action is cancel friend request");
                 // action is cancel friend request
                 accepted = false;
                 requester = 0;
                 receiver = 0;
-            } else if (requester === req.headers.id) {
+            } else if (requester == req.body.id) {
                 console.log("action is accept friend request");
                 // action is accept friend request
                 accepted = true;
                 db.friendshiplog(req.session.userId + "accepted_", uniqcode);
+            } else {
+                console.log("should not happen");
             }
-            const modifiedfriendship = await db.modifyFriendship(
-                uniqcode,
-                requester,
-                receiver,
-                accepted
-            );
+            await db.modifyFriendship(uniqcode, requester, receiver, accepted);
             data = {
-                friends: modifiedfriendship.rows[0].accepted,
-                requester: modifiedfriendship.rows[0].requester
+                friends: accepted,
+                requester: requester
             };
             res.send(data);
         } catch (err) {
-            console.log(err);
-            // no friendship data yet
-            //db.addFriendship(uniqcode);
+            // no friendship data yet - unqcode, requester, receiver, accepted , log
+            try {
+                await db.addFriendship(
+                    uniqcode,
+                    req.session.userId,
+                    req.body.id,
+                    false,
+                    req.session.userId + "requested_"
+                );
+                data = {
+                    friends: false,
+                    requester: req.session.userId
+                };
+                res.send(data);
+            } catch (err) {
+                console.log(err);
+                data = { norequests: true };
+                res.send(data);
+            }
         }
     }
 });

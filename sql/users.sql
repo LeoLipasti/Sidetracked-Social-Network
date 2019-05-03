@@ -15,8 +15,8 @@ DROP TABLE IF EXISTS friendships;
 CREATE TABLE friendships(
     id SERIAL PRIMARY KEY,
     uniqcode VARCHAR(250) NOT NULL UNIQUE,
-    requester VARCHAR(250),
-    receiver VARCHAR(250),
+    requester INTEGER,
+    receiver INTEGER,
     accepted BOOLEAN NOT NULL,
     statushistory VARCHAR(250)
 );

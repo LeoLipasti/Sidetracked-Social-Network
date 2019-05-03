@@ -41,8 +41,10 @@ export default class OtherProfile extends React.Component {
                         if (!data.friends) {
                             if (data.requester === this.props.match.params.id) {
                                 this.setState({ status: "acceptrequest" });
-                            } else {
+                            } else if (data.requester != 0) {
                                 this.setState({ status: "requestsent" });
+                            } else {
+                                this.setState({ status: "notfriends" });
                             }
                         } else {
                             this.setState({ status: "friends" });
@@ -56,18 +58,18 @@ export default class OtherProfile extends React.Component {
             this.setState({ status: "pendingrequest" });
             axios
                 .post("/static/friendrequests", {
-                    headers: {
-                        getme: "friendships",
-                        id: this.props.match.params.id
-                    }
+                    getme: "friendships",
+                    id: this.props.match.params.id
                 })
                 .then(({ data }) => {
                     if (!data.norequests) {
                         if (!data.friends) {
                             if (data.requester === this.props.match.params.id) {
                                 this.setState({ status: "acceptrequest" });
-                            } else {
+                            } else if (data.requester != 0) {
                                 this.setState({ status: "requestsent" });
+                            } else {
+                                this.setState({ status: "notfriends" });
                             }
                         } else {
                             this.setState({ status: "friends" });
