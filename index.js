@@ -214,13 +214,14 @@ app.post("/static/friendrequests", async (req, res) => {
                 console.log(
                     "existing requests history but blank state - this user is now then requester"
                 );
+                db.friendshiplog(req.session.userId + "requested_", uniqcode);
                 // existing requests history but blank state - this user is now then requester
                 requester = req.session.userId;
                 receiver = req.body.id;
             } else if (accepted) {
                 // action is unfriend
                 console.log("action is unfriend");
-                db.friendshiplog(req.session.userId + "unfriend_", uniqcode);
+                db.friendshiplog(req.session.userId + "unfriended_", uniqcode);
                 accepted = false;
                 requester = 0;
                 receiver = 0;

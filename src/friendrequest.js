@@ -6,25 +6,25 @@ export default function FriendRequester({ clickHandler, status }) {
     if (status === "friends") {
         return (
             <div style={style.data.button_friendrequest} onClick={clickHandler}>
-                Remove from Friends
+                Remove from friends
             </div>
         );
     } else if (status === "notfriends") {
         return (
             <div style={style.data.button_friendrequest} onClick={clickHandler}>
-                Send Friend Request
+                Send friend request
             </div>
         );
     } else if (status === "requestsent") {
         return (
             <div style={style.data.button_friendrequest} onClick={clickHandler}>
-                Cancel Friend Request
+                Cancel friend request
             </div>
         );
     } else if (status === "acceptrequest") {
         return (
             <div style={style.data.button_friendrequest} onClick={clickHandler}>
-                Accept Friend Request
+                Accept friend request
             </div>
         );
     } else {

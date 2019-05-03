@@ -39,7 +39,8 @@ export default class OtherProfile extends React.Component {
                 .then(({ data }) => {
                     if (!data.norequests) {
                         if (!data.friends) {
-                            if (data.requester === this.props.match.params.id) {
+                            if (data.requester == this.props.match.params.id) {
+                                console.log("matches");
                                 this.setState({ status: "acceptrequest" });
                             } else if (data.requester != 0) {
                                 this.setState({ status: "requestsent" });
@@ -64,7 +65,7 @@ export default class OtherProfile extends React.Component {
                 .then(({ data }) => {
                     if (!data.norequests) {
                         if (!data.friends) {
-                            if (data.requester === this.props.match.params.id) {
+                            if (data.requester == this.props.match.params.id) {
                                 this.setState({ status: "acceptrequest" });
                             } else if (data.requester != 0) {
                                 this.setState({ status: "requestsent" });

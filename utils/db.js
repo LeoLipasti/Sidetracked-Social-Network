@@ -72,7 +72,7 @@ exports.addFriendship = function addFriendship(
 };
 
 exports.friendshiplog = function friendshiplog(log, uniqcode) {
-    let q = `UPDATE friendships SET statushistory = statushistory + $1 WHERE uniqcode=$2`;
-    let params = [log, uniqcode];
+    let q = `UPDATE friendships SET statushistory = CONCAT(statushistory, $1::VARCHAR) WHERE uniqcode=$2`;
+    let params = [String(log), uniqcode];
     return db.query(q, params);
 };
