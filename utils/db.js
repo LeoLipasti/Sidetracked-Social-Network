@@ -42,7 +42,7 @@ exports.queryLoginID = function queryLoginID(email) {
 };
 
 exports.queryFriendship = function queryFriendship(uniqcode) {
-    let q = `SELECT accepted, requester FROM friendships WHERE uniqcode = $1`;
+    let q = `SELECT accepted, requester, receiver FROM friendships WHERE uniqcode = $1`;
     let params = [uniqcode];
     return db.query(q, params);
 };
