@@ -167,10 +167,9 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.get("/static/friendrequests", checkUser, async (req, res) => {
+app.get("/state/friendrequests", checkUser, async (req, res) => {
     if (!req.headers.getme) {
         // get is not coming from app page
-        console.log("request not coming from app page");
         res.redirect("/");
     } else {
         let data = {};
@@ -192,10 +191,9 @@ app.get("/static/friendrequests", checkUser, async (req, res) => {
     }
 });
 
-app.post("/static/friendrequests", async (req, res) => {
+app.post("/state/friendrequests", async (req, res) => {
     if (!req.body.getme) {
         // post is not coming from app page
-        console.log("request not coming from app page");
         res.redirect("/");
     } else {
         let data = {};
@@ -207,37 +205,25 @@ app.post("/static/friendrequests", async (req, res) => {
             let requester = friendstatus.rows[0].requester;
             let receiver = friendstatus.rows[0].receiver;
             let accepted = friendstatus.rows[0].accepted;
-            console.log(requester);
-            console.log(receiver);
-            console.log(accepted);
             if (requester == 0 || receiver == 0) {
-                console.log(
-                    "existing requests history but blank state - this user is now then requester"
-                );
-                db.friendshiplog(req.session.userId + "requested_", uniqcode);
                 // existing requests history but blank state - this user is now then requester
                 requester = req.session.userId;
                 receiver = req.body.id;
             } else if (accepted) {
                 // action is unfriend
-                console.log("action is unfriend");
                 db.friendshiplog(req.session.userId + "unfriended_", uniqcode);
                 accepted = false;
                 requester = 0;
                 receiver = 0;
             } else if (requester == req.session.userId) {
-                console.log("action is cancel friend request");
                 // action is cancel friend request
                 accepted = false;
                 requester = 0;
                 receiver = 0;
             } else if (requester == req.body.id) {
-                console.log("action is accept friend request");
                 // action is accept friend request
                 accepted = true;
                 db.friendshiplog(req.session.userId + "accepted_", uniqcode);
-            } else {
-                console.log("should not happen");
             }
             await db.modifyFriendship(uniqcode, requester, receiver, accepted);
             data = {
@@ -306,6 +292,10 @@ app.get("/static/user/:something", checkUser, async (req, res) => {
             }
         }
     }
+});
+
+app.get("/friends", checkUser, async (req, res) => {
+    // friends route, see all friend requests and current friends
 });
 
 app.get("/user", checkUser, async (req, res) => {

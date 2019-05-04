@@ -30,7 +30,7 @@ export default class OtherProfile extends React.Component {
     friendRequests(action) {
         if (!action) {
             axios
-                .get("/static/friendrequests", {
+                .get("/state/friendrequests", {
                     headers: {
                         getme: "friendships",
                         id: this.props.match.params.id
@@ -58,7 +58,7 @@ export default class OtherProfile extends React.Component {
             // action = POST
             this.setState({ status: "pendingrequest" });
             axios
-                .post("/static/friendrequests", {
+                .post("/state/friendrequests", {
                     getme: "friendships",
                     id: this.props.match.params.id
                 })

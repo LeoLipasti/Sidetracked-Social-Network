@@ -1,16 +1,20 @@
 // Im planning to make different color themes but thats for bonus feature time
 
+const topColor = "#cce6ff";
+const baseColor = "#e6f7ff";
+const borderColor = "white #99ccff #99ccff white";
+
 const MainStyle = {
     body: {
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#ccccb3"
+        backgroundColor: baseColor
     },
     userbox: {
         width: "400px",
         height: "500px",
         margin: "auto",
-        backgroundColor: "#a3a375",
+        backgroundColor: topColor,
         minHeight: "200px",
         boxSizing: "border-box",
         color: "white",
@@ -50,7 +54,7 @@ const MainStyle = {
         width: "550px",
         height: "180px",
         marginLeft: "calc(100%-275px)",
-        backgroundColor: "#a3a375",
+        backgroundColor: topColor,
         textAlign: "center",
         position: "absolute",
         border: "1px solid black",
@@ -68,8 +72,11 @@ const MainStyle = {
     profile: {
         width: "100%",
         height: "225px",
-        backgroundColor: "#a3a375",
-        borderRadius: "5px"
+        backgroundColor: topColor,
+        borderRadius: "5px",
+        borderStyle: "solid",
+        borderWidth: "1px",
+        borderColor: borderColor
     },
     profilepic: {
         width: "175px",
