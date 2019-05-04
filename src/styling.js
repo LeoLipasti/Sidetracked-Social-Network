@@ -1,8 +1,15 @@
 // Im planning to make different color themes but thats for bonus feature time
+// readymade color themes, store selection in localStorage
 
-const topColor = "#cce6ff";
+const textColor = "#000033";
+const errorColor = "red";
+const topColor = "#99bbff";
 const baseColor = "#e6f7ff";
-const borderColor = "white #99ccff #99ccff white";
+const lowlineColor = "#99ccff";
+const borderColor = "white " + lowlineColor + " " + lowlineColor + " white";
+const borderButton = "silver orange orange silver";
+const borderWidth = "1px";
+const borderRadius = 5;
 
 const MainStyle = {
     body: {
@@ -14,52 +21,59 @@ const MainStyle = {
         width: "400px",
         height: "500px",
         margin: "auto",
-        backgroundColor: topColor,
         minHeight: "200px",
         boxSizing: "border-box",
-        color: "white",
-        borderRadius: "5px",
-        textAlign: "center"
+        color: textColor,
+        borderRadius: borderRadius + "px",
+        textAlign: "center",
+        backgroundColor: topColor
     },
     error: {
-        color: "red"
+        color: errorColor
     },
     hidden: {
         display: "none"
     },
-    button: { cursor: "pointer" },
-    button_friendrequest: {
-        width: "150px",
-        height: "25px",
-        backgroundColor: "black",
-        color: "white",
-        fontFamily: "'EB Garamond', serif",
-        fontSize: "14px",
-        textAlign: "center",
-        paddingTop: "2px",
+    button: {
         cursor: "pointer"
     },
+    buttonbordered: {
+        cursor: "pointer",
+        borderColor: borderButton,
+        borderStyle: "solid",
+        borderWidth: "1px"
+    },
     usericon: {
+        // DO NOT MOVE THIS TO CSS FILES !
+        // This style is passed into avatar pics
+        // as parameter, check app for details
         width: "100px",
         height: "100px",
         padding: "5px",
         textAlign: "center",
         display: "inline",
         float: "right"
+        // DO NOT MOVE THIS TO CSS FILES !
+        // This style is passed into avatar pics
+        // as parameter, check app for details
     },
     avatar: {
-        borderRadius: "10px"
+        borderRadius: borderRadius * 4 + "px",
+        borderStyle: "solid",
+        backgroundColor: lowlineColor,
+        borderWidth: borderWidth,
+        borderColor: borderColor
     },
     uploadimage: {
         width: "550px",
         height: "180px",
         marginLeft: "calc(100%-275px)",
-        backgroundColor: topColor,
         textAlign: "center",
         position: "absolute",
         border: "1px solid black",
         padding: "5px",
-        borderRadius: "5px"
+        borderRadius: borderRadius + "px",
+        backgroundColor: topColor
     },
     uploadimage_close: {
         width: "16px",
@@ -72,35 +86,17 @@ const MainStyle = {
     profile: {
         width: "100%",
         height: "225px",
-        backgroundColor: topColor,
-        borderRadius: "5px",
+        boxShadow: "-1px -4px 15px " + lowlineColor,
         borderStyle: "solid",
-        borderWidth: "1px",
-        borderColor: borderColor
+        borderRadius: borderRadius + "px",
+        borderWidth: borderWidth,
+        borderColor: borderColor,
+        backgroundColor: topColor
     },
-    profilepic: {
-        width: "175px",
-        height: "225px",
-        display: "inline",
-        float: "left",
-        padding: "15px"
-    },
-    profilebio: {
-        width: "calc(100%-150px)",
-        height: "225px",
-        display: "inline",
-        float: "left",
-        padding: "30px"
-    },
-    bioedit: {
-        width: "200px",
-        height: "125px"
-    },
-    biotxt: {},
     box: {
         textAlign: "right",
         marginRight: "79px",
-        borderRadius: "5px"
+        borderRadius: borderRadius + "px"
     }
 };
 

@@ -11,17 +11,15 @@ export default function EditBio({
 }) {
     if (bio != undefined && !bioEditMode) {
         return (
-            <div style={style.data.biotxt}>
-                <div>
-                    {bio}
-                    <p
-                        onClick={clickHandler}
-                        className="infotext"
-                        style={style.data.button}
-                    >
-                        {"[ Edit ]"}
-                    </p>
-                </div>
+            <div>
+                {bio}
+                <p
+                    onClick={clickHandler}
+                    className="infotext"
+                    style={style.data.button}
+                >
+                    {"[ Edit ]"}
+                </p>
             </div>
         );
     } else if (!bioEditMode) {
@@ -38,7 +36,7 @@ export default function EditBio({
         );
     } else {
         return (
-            <div style={style.data.bioedit}>
+            <div className="bioedit">
                 <textarea
                     rows="5"
                     value={bio}

@@ -58,7 +58,10 @@ export default class Registration extends React.Component {
                         />
                     </p>
                 </div>
-                <button onClick={e => this.submit()} style={style.data.button}>
+                <button
+                    onClick={e => this.submit()}
+                    style={style.data.buttonbordered}
+                >
                     Join up
                 </button>
             </div>

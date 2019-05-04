@@ -13,6 +13,8 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 import EditBio from "./bioeditor";
 
+import FriendsProfile from "./friendsprofile";
+
 import style from "./styling.js";
 
 export default class App extends React.Component {
@@ -125,6 +127,7 @@ export default class App extends React.Component {
                             )}
                         />
                         <Route path="/user/:id" component={OtherProfile} />
+                        <Route path="/friends" component={FriendsProfile} />
                     </div>
                 </BrowserRouter>
                 {this.state.isUloaderVisible && (

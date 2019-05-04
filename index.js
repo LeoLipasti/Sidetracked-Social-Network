@@ -296,6 +296,12 @@ app.get("/static/user/:something", checkUser, async (req, res) => {
 
 app.get("/friends", checkUser, async (req, res) => {
     // friends route, see all friend requests and current friends
+    try {
+        const data = await db.queryAllFriendships();
+        res.send(data);
+    } catch (err) {
+        res.send(undefined);
+    }
 });
 
 app.get("/user", checkUser, async (req, res) => {

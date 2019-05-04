@@ -47,6 +47,19 @@ exports.queryFriendship = function queryFriendship(uniqcode) {
     return db.query(q, params);
 };
 
+exports.queryAllFriendships = function queryAllFriendships(id) {
+    let q = `
+    SELECT users.id, first, last, avatar, accepted
+    FROM friendships
+    JOIN users
+    ON (accepted = false AND recipient_id = $1 AND requester_id = users.id)
+    OR (accepted = true AND recipient_id = $1 AND requester_id = users.id)
+    OR (accepted = true AND requester_id = $1 AND recipient_id = users.id)
+`;
+    let params = [id];
+    return db.query(q, params);
+};
+
 exports.modifyFriendship = function modifyFriendship(
     uniqcode,
     requester,

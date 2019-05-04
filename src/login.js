@@ -47,7 +47,10 @@ export default class Login extends React.Component {
                         />
                     </p>
                 </div>
-                <button onClick={() => this.submit()} style={style.data.button}>
+                <button
+                    onClick={() => this.submit()}
+                    style={style.data.buttonbordered}
+                >
                     Login
                 </button>
             </div>
