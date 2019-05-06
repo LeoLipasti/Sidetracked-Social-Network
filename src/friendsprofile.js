@@ -17,7 +17,7 @@ class FriendsProfile extends React.Component {
         const friendRequesters = (
             <div>
                 <p style={style.data.themetext}>Incoming friend requests:</p>
-                <div style={style.data.profile}>
+                <div style={style.data.friends}>
                     {users
                         .filter(user => !user.accepted)
                         .map((user, index) => (
@@ -55,7 +55,7 @@ class FriendsProfile extends React.Component {
         const friendUsers = (
             <div>
                 <p style={style.data.themetext}>Current friends:</p>
-                <div style={style.data.profile}>
+                <div style={style.data.friends}>
                     {users
                         .filter(user => user.accepted)
                         .map((user, index) => (

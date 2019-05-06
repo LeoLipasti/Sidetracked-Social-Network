@@ -12,21 +12,25 @@ const borderWidth = "1px";
 const borderRadius = 5;
 
 const MainStyle = {
-    body: {
+    registerloginbg: {
         width: "100vw",
         height: "100vh",
+        position: "absolute",
         backgroundColor: baseColor
     },
     userbox: {
         width: "400px",
-        height: "500px",
+        height: "600px",
         margin: "auto",
         minHeight: "200px",
         boxSizing: "border-box",
         color: textColor,
-        borderRadius: borderRadius + "px",
         textAlign: "center",
-        backgroundColor: topColor
+        backgroundColor: topColor,
+        borderRadius: borderRadius * 2 + "px",
+        borderStyle: "solid",
+        borderWidth: borderWidth,
+        borderColor: borderColor
     },
     error: {
         color: errorColor
@@ -67,13 +71,17 @@ const MainStyle = {
     uploadimage: {
         width: "550px",
         height: "180px",
-        marginLeft: "calc(100%-275px)",
+        marginLeft: "calc(50% - 275px)",
         textAlign: "center",
         position: "absolute",
-        border: "1px solid black",
+        top: "35px",
+        borderStyle: "solid",
+        backgroundColor: topColor,
+        borderWidth: borderWidth,
+        borderColor: borderColor,
         padding: "5px",
         borderRadius: borderRadius + "px",
-        backgroundColor: topColor
+        boxShadow: "-1px -4px 15px white"
     },
     uploadimage_close: {
         width: "16px",
@@ -81,10 +89,21 @@ const MainStyle = {
         textAlign: "right",
         position: "absolute",
         top: "0",
-        right: "5px"
+        right: "5px",
+        cursor: "pointer"
     },
     profile: {
         width: "100%",
+        height: "225px",
+        boxShadow: "-1px -4px 15px " + lowlineColor,
+        borderStyle: "solid",
+        borderRadius: borderRadius + "px",
+        borderWidth: borderWidth,
+        borderColor: borderColor,
+        backgroundColor: topColor
+    },
+    friends: {
+        width: "100vw",
         height: "225px",
         boxShadow: "-1px -4px 15px " + lowlineColor,
         borderStyle: "solid",

@@ -40,7 +40,8 @@ export default function EditBio({
                 <textarea
                     rows="5"
                     value={bio}
-                    cols="50"
+                    cols="40"
+                    maxLength="175"
                     onChange={e => onChangeTxt(e)}
                 />
                 <button onClick={postBio} style={style.data.button}>

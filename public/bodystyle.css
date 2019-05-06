@@ -6,16 +6,30 @@ body {
     margin: 0;
     font-family: "Roboto Slab", serif;
     font-size: 18px;
+    overflow: hidden;
+}
+
+.bgimage {
+    background: url(stbg_fade.png);
+    background-repeat: repeat-x;
+    background-size: 50%;
 }
 
 a {
     color: black;
     text-decoration: none;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 a:hover {
     font-weight: bold;
     text-decoration: underline;
+}
+
+h1 {
+    font-size: 36px;
+    padding: 10px;
 }
 
 input {
@@ -37,16 +51,17 @@ button {
 }
 
 .profilebio {
-    width: calc(100%-150px);
+    max-width: 600px;
     height: 225px;
-    display: inline;
-    float: left;
     padding: 30px;
+    position: absolute;
+    left: 150px;
 }
 
 .bioedit {
     width: 200px;
     height: 125px;
+    position: absolute;
 }
 
 .profilepic {
@@ -66,6 +81,7 @@ button {
     font-size: 14px;
     text-align: center;
     padding-top: 2px;
+    overflow: hidden;
 }
 
 .user {
@@ -73,7 +89,6 @@ button {
     margin-top: 5px;
     width: 150px;
     height: 150px;
-    display: inline;
 }
 
 @media only screen and (width: 1024px) {

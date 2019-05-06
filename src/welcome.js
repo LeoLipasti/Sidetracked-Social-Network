@@ -16,25 +16,29 @@ export default class Welcome extends React.Component {
     }
     render() {
         return (
-            <div style={style.data.body}>
-                <div style={style.data.userbox}>
-                    <h1>Welcome to Sidetracked the Social Network!</h1>
-                    <HashRouter>
-                        <div>
-                            <p>
-                                <Link to="/register">{"I'm a New User"}</Link>
-                            </p>
-                            <p>
-                                <Link to="/login">Login</Link>
-                            </p>
-                            <Route
-                                exact
-                                path="/register"
-                                component={Registration}
-                            />
-                            <Route path="/login" component={Login} />
-                        </div>
-                    </HashRouter>
+            <div style={style.data.registerloginbg}>
+                <div className="bgimage">
+                    <div style={style.data.userbox}>
+                        <h1>Welcome to Sidetracked the Social Network!</h1>
+                        <HashRouter>
+                            <div>
+                                <p>
+                                    <Link to="/register">
+                                        {"I'm a New User"}
+                                    </Link>
+                                </p>
+                                <p>
+                                    <Link to="/login">Login</Link>
+                                </p>
+                                <Route
+                                    exact
+                                    path="/register"
+                                    component={Registration}
+                                />
+                                <Route path="/login" component={Login} />
+                            </div>
+                        </HashRouter>
+                    </div>
                 </div>
             </div>
         );
