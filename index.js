@@ -269,19 +269,6 @@ app.get("/state/friendsnrequests", checkUser, async (req, res) => {
     } else {
         try {
             const data = await db.queryAllFriendships(req.session.userId);
-            // Giving display_index for convenient displaying on react side
-            let o = 0;
-            let u = 0;
-            for (var i = 0; i < data.rows.length; i++) {
-                if (data.rows[i].accepted) {
-                    data.rows[i].display_index = o;
-                    o++;
-                } else if (!data.rows[i].accepted) {
-                    data.rows[i].display_index = u;
-                    u++;
-                }
-            }
-            console.log(data.rows);
             res.send(data.rows);
         } catch (err) {
             console.log(err);

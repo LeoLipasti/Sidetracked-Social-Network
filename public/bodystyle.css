@@ -71,6 +71,9 @@ button {
 .user {
     margin-left: 10px;
     margin-top: 5px;
+    width: 150px;
+    height: 150px;
+    display: inline;
 }
 
 @media only screen and (width: 1024px) {

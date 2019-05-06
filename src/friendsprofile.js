@@ -18,38 +18,37 @@ class FriendsProfile extends React.Component {
             <div>
                 <p style={style.data.themetext}>Incoming friend requests:</p>
                 <div style={style.data.profile}>
-                    {users.map(
-                        user =>
-                            !user.accepted && (
-                                <div
-                                    className="user"
-                                    key={user.id}
-                                    style={{
-                                        position: "absolute",
-                                        left: user.display_index * 155 + "px"
-                                    }}
-                                >
-                                    <div style={style.data.themetextbasic}>
-                                        {user.first} {user.last}
-                                    </div>
-                                    <img
-                                        src={user.avatar || "/placeholder.png"}
-                                        width="150px"
-                                    />
-                                    <div
-                                        style={style.data.buttonbordered}
-                                        className="friendrequest"
-                                        onClick={() =>
-                                            this.props.dispatch(
-                                                friendRequests(user.id)
-                                            )
-                                        }
-                                    >
-                                        Accept friend request
-                                    </div>
+                    {users
+                        .filter(user => !user.accepted)
+                        .map((user, index) => (
+                            <div
+                                className="user"
+                                key={user.id}
+                                style={{
+                                    position: "absolute",
+                                    left: index * 155 + "px"
+                                }}
+                            >
+                                <div style={style.data.themetextbasic}>
+                                    {user.first} {user.last}
                                 </div>
-                            )
-                    )}
+                                <img
+                                    src={user.avatar || "/placeholder.png"}
+                                    width="150px"
+                                />
+                                <div
+                                    style={style.data.buttonbordered}
+                                    className="friendrequest"
+                                    onClick={() =>
+                                        this.props.dispatch(
+                                            friendRequests(user.id)
+                                        )
+                                    }
+                                >
+                                    Accept friend request
+                                </div>
+                            </div>
+                        ))}
                 </div>
             </div>
         );
@@ -57,38 +56,37 @@ class FriendsProfile extends React.Component {
             <div>
                 <p style={style.data.themetext}>Current friends:</p>
                 <div style={style.data.profile}>
-                    {users.map(
-                        user =>
-                            user.accepted && (
-                                <div
-                                    className="user"
-                                    key={user.id}
-                                    style={{
-                                        position: "absolute",
-                                        left: user.display_index * 155 + "px"
-                                    }}
-                                >
-                                    <div style={style.data.themetextbasic}>
-                                        {user.first} {user.last}
-                                    </div>
-                                    <img
-                                        src={user.avatar || "/placeholder.png"}
-                                        width="150px"
-                                    />
-                                    <div
-                                        style={style.data.buttonbordered}
-                                        className="friendrequest"
-                                        onClick={() =>
-                                            this.props.dispatch(
-                                                friendRemoval(user.id)
-                                            )
-                                        }
-                                    >
-                                        Remove from friends
-                                    </div>
+                    {users
+                        .filter(user => user.accepted)
+                        .map((user, index) => (
+                            <div
+                                className="user"
+                                key={user.id}
+                                style={{
+                                    position: "absolute",
+                                    left: index * 155 + "px"
+                                }}
+                            >
+                                <div style={style.data.themetextbasic}>
+                                    {user.first} {user.last}
                                 </div>
-                            )
-                    )}
+                                <img
+                                    src={user.avatar || "/placeholder.png"}
+                                    width="150px"
+                                />
+                                <div
+                                    style={style.data.buttonbordered}
+                                    className="friendrequest"
+                                    onClick={() =>
+                                        this.props.dispatch(
+                                            friendRemoval(user.id)
+                                        )
+                                    }
+                                >
+                                    Remove from friends
+                                </div>
+                            </div>
+                        ))}
                 </div>
             </div>
         );
