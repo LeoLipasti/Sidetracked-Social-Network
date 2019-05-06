@@ -127,7 +127,11 @@ export default class App extends React.Component {
                             )}
                         />
                         <Route path="/user/:id" component={OtherProfile} />
-                        <Route path="/friends" component={FriendsProfile} />
+                        <Route
+                            exact
+                            path="/friends"
+                            component={FriendsProfile}
+                        />
                     </div>
                 </BrowserRouter>
                 {this.state.isUloaderVisible && (

@@ -93,6 +93,18 @@ const MainStyle = {
         borderColor: borderColor,
         backgroundColor: topColor
     },
+    settingspull: {
+        width: "100%",
+        height: "25px",
+        boxShadow: "-1px -4px 15px " + lowlineColor,
+        borderStyle: "solid",
+        borderRadius: borderRadius + "px",
+        borderWidth: borderWidth,
+        borderColor: borderColor,
+        backgroundColor: topColor,
+        cursor: "pointer",
+        fontFamily: "'EB Garamond', serif"
+    },
     box: {
         textAlign: "right",
         marginRight: "79px",

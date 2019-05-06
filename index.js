@@ -167,6 +167,8 @@ app.post("/register", async (req, res) => {
     }
 });
 
+// Friend status - get friend state
+
 app.get("/state/friendrequests", checkUser, async (req, res) => {
     if (!req.headers.getme) {
         // get is not coming from app page
@@ -190,6 +192,8 @@ app.get("/state/friendrequests", checkUser, async (req, res) => {
         }
     }
 });
+
+// Friend status - alter friend state
 
 app.post("/state/friendrequests", async (req, res) => {
     if (!req.body.getme) {
@@ -255,6 +259,26 @@ app.post("/state/friendrequests", async (req, res) => {
     }
 });
 
+// Friend status - Friends page - see all friend requests and current friends
+
+app.get("/state/friendsnrequests", checkUser, async (req, res) => {
+    // friends route
+    if (!req.headers.getme) {
+        // get is not coming from app page
+        console.log("request not coming from app page");
+        res.redirect("/");
+    } else {
+        try {
+            const data = await db.queryAllFriendships(req.session.userId);
+            console.log(data.rows);
+            res.send(data.rows);
+        } catch (err) {
+            console.log(err);
+            res.send(undefined);
+        }
+    }
+});
+
 app.get("/static/user/:something", checkUser, async (req, res) => {
     if (!req.headers.getme) {
         // get is not coming from app page
@@ -291,16 +315,6 @@ app.get("/static/user/:something", checkUser, async (req, res) => {
                 res.send(data);
             }
         }
-    }
-});
-
-app.get("/friends", checkUser, async (req, res) => {
-    // friends route, see all friend requests and current friends
-    try {
-        const data = await db.queryAllFriendships();
-        res.send(data);
-    } catch (err) {
-        res.send(undefined);
     }
 });
 

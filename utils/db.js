@@ -49,12 +49,12 @@ exports.queryFriendship = function queryFriendship(uniqcode) {
 
 exports.queryAllFriendships = function queryAllFriendships(id) {
     let q = `
-    SELECT users.id, first, last, avatar, accepted
+    SELECT users.id, firstname, lastname, avatar, accepted
     FROM friendships
     JOIN users
-    ON (accepted = false AND recipient_id = $1 AND requester_id = users.id)
-    OR (accepted = true AND recipient_id = $1 AND requester_id = users.id)
-    OR (accepted = true AND requester_id = $1 AND recipient_id = users.id)
+    ON (accepted = false AND receiver = $1 AND requester = users.id)
+    OR (accepted = true AND receiver = $1 AND requester = users.id)
+    OR (accepted = true AND requester = $1 AND receiver = users.id)
 `;
     let params = [id];
     return db.query(q, params);

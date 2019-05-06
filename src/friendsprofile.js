@@ -43,15 +43,19 @@ class FriendsProfile extends React.Component {
 }
 
 async function getFriends() {
-    const { data } = await axios.get("/friends");
+    const { data } = await axios.get("/state/friendsnrequests", {
+        headers: {
+            getme: "friendships"
+        }
+    });
     return {
         type: "GET_USERS",
-        users: data.users
+        users: data
     };
 }
 
 function friendRequests(id) {
-    axios.post("/state/friendrequests", {
+    axios.post("/state/friendsnrequests", {
         headers: {
             getme: "friendships",
             id: id
@@ -62,7 +66,7 @@ function friendRequests(id) {
 function mapStateToProps(state) {
     return {
         // filter the relevant users // this page is wannabe friends
-        users: state.users && state.users.filter(user => user.hot)
+        users: state.users
     };
 }
 
