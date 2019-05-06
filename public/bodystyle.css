@@ -24,6 +24,7 @@ input {
 
 .infotext {
     font-family: "EB Garamond", serif;
+    padding-left: 10px;
 }
 
 button {

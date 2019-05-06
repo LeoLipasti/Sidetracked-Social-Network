@@ -22,6 +22,8 @@ export default class OtherProfile extends React.Component {
                 this.setState(data);
                 if (this.state.first === undefined) {
                     this.setState({ ownid: true });
+                } else if (this.state.last === undefined) {
+                    this.setState({ notfound: true });
                 } else {
                     this.friendRequests();
                 }
@@ -40,7 +42,6 @@ export default class OtherProfile extends React.Component {
                     if (!data.norequests) {
                         if (!data.friends) {
                             if (data.requester == this.props.match.params.id) {
-                                console.log("matches");
                                 this.setState({ status: "acceptrequest" });
                             } else if (data.requester != 0) {
                                 this.setState({ status: "requestsent" });
@@ -82,7 +83,7 @@ export default class OtherProfile extends React.Component {
         }
     }
     render() {
-        if (!this.state.ownid) {
+        if (!this.state.ownid && !this.state.notfound) {
             return (
                 <div style={style.data.profile}>
                     <Profile
@@ -116,8 +117,28 @@ export default class OtherProfile extends React.Component {
                     />
                 </div>
             );
-        } else {
+        } else if (this.state.ownid) {
             return <Redirect to="/" />;
+        } else {
+            return (
+                <div style={style.data.profile}>
+                    <Profile
+                        first={this.state.first}
+                        last={this.state.last}
+                        profilePic={
+                            <div>
+                                <ProfilePic
+                                    id={this.props.match.params.id}
+                                    avatar={this.state.avatar}
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    avatarscale={"150px"}
+                                />
+                            </div>
+                        }
+                    />
+                </div>
+            );
         }
     }
 }
