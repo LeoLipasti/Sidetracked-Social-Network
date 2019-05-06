@@ -14,28 +14,83 @@ class FriendsProfile extends React.Component {
         if (!users) {
             return null;
         }
+        const friendRequesters = (
+            <div style={style.data.profile}>
+                {users.map(
+                    user =>
+                        !user.accepted && (
+                            <div
+                                className="user"
+                                key={user.id}
+                                style={{
+                                    position: "absolute",
+                                    left: users.indexOf(user) * 155 + "px"
+                                }}
+                            >
+                                <div style={style.data.themetextbasic}>
+                                    {user.first} {user.last}
+                                </div>
+                                <img
+                                    src={user.avatar || "/placeholder.png"}
+                                    width="150px"
+                                />
+                                <div
+                                    style={style.data.buttonbordered}
+                                    className="friendrequest"
+                                    onClick={() =>
+                                        this.props.dispatch(
+                                            friendRequests(user.id)
+                                        )
+                                    }
+                                >
+                                    Accept friend request
+                                </div>
+                            </div>
+                        )
+                )}
+            </div>
+        );
         const friendUsers = (
-            <div className="users">
-                {users.map(user => (
-                    <div className="user" key={user.id}>
-                        <img src={user.avatar} />
-                        <div
-                            style={style.data.buttonbordered}
-                            className="friendrequest"
-                        >
-                            <button
-                                onClick={() =>
-                                    this.props.dispatch(friendRequests(user.id))
-                                }
-                            />
-                        </div>
-                    </div>
-                ))}
+            <div style={style.data.profile}>
+                {users.map(
+                    user =>
+                        user.accepted && (
+                            <div
+                                className="user"
+                                key={user.id}
+                                style={{
+                                    position: "absolute",
+                                    left: users.indexOf(user) * 155 + "px"
+                                }}
+                            >
+                                <div style={style.data.themetextbasic}>
+                                    {user.first} {user.last}
+                                </div>
+                                <img
+                                    src={user.avatar || "/placeholder.png"}
+                                    width="150px"
+                                />
+                                <div
+                                    style={style.data.buttonbordered}
+                                    className="friendrequest"
+                                    onClick={() =>
+                                        this.props.dispatch(
+                                            friendRequests(user.id)
+                                        )
+                                    }
+                                >
+                                    Accept friend request
+                                </div>
+                            </div>
+                        )
+                )}
             </div>
         );
         return (
             <div>
-                Pending friend requests:
+                <p style={style.data.themetext}>Incoming friend requests:</p>
+                {!!users.length && friendRequesters}
+                <p style={style.data.themetext}>Current friends:</p>
                 {!!users.length && friendUsers}
             </div>
         );
@@ -55,17 +110,14 @@ async function getFriends() {
 }
 
 function friendRequests(id) {
-    axios.post("/state/friendsnrequests", {
-        headers: {
-            getme: "friendships",
-            id: id
-        }
+    axios.post("/state/friendrequests", {
+        getme: "friendships",
+        id: id
     });
 }
 
 function mapStateToProps(state) {
     return {
-        // filter the relevant users // this page is wannabe friends
         users: state.users
     };
 }

@@ -251,7 +251,6 @@ app.post("/state/friendrequests", async (req, res) => {
                 };
                 res.send(data);
             } catch (err) {
-                console.log(err);
                 data = { norequests: true };
                 res.send(data);
             }
@@ -270,7 +269,6 @@ app.get("/state/friendsnrequests", checkUser, async (req, res) => {
     } else {
         try {
             const data = await db.queryAllFriendships(req.session.userId);
-            console.log(data.rows);
             res.send(data.rows);
         } catch (err) {
             console.log(err);

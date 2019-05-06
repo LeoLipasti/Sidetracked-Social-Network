@@ -109,7 +109,9 @@ const MainStyle = {
         textAlign: "right",
         marginRight: "79px",
         borderRadius: borderRadius + "px"
-    }
+    },
+    themetext: { color: topColor, marginLeft: "10px" },
+    themetextbasic: { color: textColor, textAlign: "center" }
 };
 
 module.exports = { data: MainStyle };

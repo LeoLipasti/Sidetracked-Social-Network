@@ -67,6 +67,11 @@ button {
     padding-top: 2px;
 }
 
+.user {
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
 @media only screen and (width: 1024px) {
     body {
         font-size: 3vw;

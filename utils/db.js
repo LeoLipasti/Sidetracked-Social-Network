@@ -49,7 +49,7 @@ exports.queryFriendship = function queryFriendship(uniqcode) {
 
 exports.queryAllFriendships = function queryAllFriendships(id) {
     let q = `
-    SELECT users.id, firstname, lastname, avatar, accepted
+    SELECT users.id, firstname AS first, lastname AS last, avatar, accepted
     FROM friendships
     JOIN users
     ON (accepted = false AND receiver = $1 AND requester = users.id)
