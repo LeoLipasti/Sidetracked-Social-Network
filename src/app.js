@@ -15,6 +15,10 @@ import EditBio from "./bioeditor";
 
 import FriendsProfile from "./friendsprofile";
 
+import OnlineUsers from "./onlineusers";
+
+import Chat from "./chat";
+
 import style from "./styling.js";
 
 export default class App extends React.Component {
@@ -87,7 +91,8 @@ export default class App extends React.Component {
         return (
             <div style={style.data.registerloginbg}>
                 <img src={"./logo_small.png"} width="42px" />
-                <a href="/">Profile</a> <a href="/friends">Friends</a>
+                <a href="/">Profile</a> <a href="/friends">Friends</a>{" "}
+                <a href="/online">Online users</a>
                 <ProfilePic
                     displstyle={style.data.usericon}
                     avatar={this.state.avatar}
@@ -148,6 +153,8 @@ export default class App extends React.Component {
                             path="/friends"
                             component={FriendsProfile}
                         />
+                        <Route exact path="/online" component={OnlineUsers} />
+                        <Route exact path="/chat" component={Chat} />
                     </div>
                 </BrowserRouter>
                 {this.state.isUloaderVisible && (

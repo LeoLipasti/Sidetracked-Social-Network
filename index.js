@@ -434,9 +434,8 @@ server.listen(8080, function() {
 
 let onlineUsers = {};
 
-io.on("connection", socket => {
+io.on("connection", function(socket) {
     if (!socket.request.session || !socket.request.session.userId) {
-        console.log("disconnecting user");
         return socket.disconnect(true);
     }
     // we know this user by the initial handshake
@@ -445,17 +444,16 @@ io.on("connection", socket => {
 
     console.log("socket with the id ${socket.id} is now connected");
 
-    //db.getUsersByIds(onlineUsers);
-
-    //socket.emit("hello", { funkychicken: "yellow" });
-
-    //io.emit("newConnector", "another one!");
-    // or
-    //io.sockets.emit("newConnector", "another one!");
-
-    // Object.values(onlineUsers)
+    db.getUsersByIds(Object.values(onlineUsers))
+        .then(({ rows }) => {
+            socket.emit("onlineUsers", rows);
+        })
+        .then(() => {
+            io.emit("userJoined", userId);
+        });
 
     socket.on("disconnect", () => {
         console.log("socket with the id ${socket.id} is now disconnected");
+        io.emit("userLeft", userId);
     });
 });

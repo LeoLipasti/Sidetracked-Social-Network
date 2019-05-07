@@ -97,6 +97,11 @@ button {
     height: 150px;
 }
 
+.onlineusers {
+    display: inline;
+    width: 75px;
+}
+
 label img {
     position: absolute;
 }

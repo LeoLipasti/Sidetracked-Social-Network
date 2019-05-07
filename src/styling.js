@@ -130,7 +130,13 @@ const MainStyle = {
         borderRadius: borderRadius + "px"
     },
     themetext: { color: topColor, marginLeft: "10px" },
-    themetextbasic: { color: textColor, textAlign: "center" }
+    themetextbasic: { color: textColor, textAlign: "center" },
+    themetextsmall: {
+        color: textColor,
+        textAlign: "center",
+        fontSize: "12px",
+        width: "75px"
+    }
 };
 
 module.exports = { data: MainStyle };

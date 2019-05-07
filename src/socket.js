@@ -1,5 +1,5 @@
 import * as io from "socket.io-client";
-import { onlineUsers } from "./actions";
+import { onlineUsers, userJoined, userLeft } from "./actions";
 // or this file
 
 export let socket;

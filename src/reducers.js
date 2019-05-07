@@ -35,7 +35,23 @@ export default function(state = {}, action) {
     if (action.type == "ONLINE_USERS") {
         state = {
             ...state,
-            users: action.users
+            onlineusers: action.users
+        };
+    }
+    if (action.type == "ONLINE_USERS_ADD") {
+        state = {
+            ...state,
+            onlineusers: state.onlineusers.concat(action.user)
+        };
+    }
+    if (action.type == "ONLINE_USERS_REMOVE") {
+        state = {
+            ...state,
+            onlineusers: state.onlineusers.map(user => {
+                if (user.id != action.id) {
+                    return user;
+                }
+            })
         };
     }
     return state;
