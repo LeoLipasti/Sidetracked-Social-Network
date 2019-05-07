@@ -1,5 +1,9 @@
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    origins: "localhost:8080 yourfunkychickenappreplacelater.herokuapp.com:*"
+});
 const compression = require("compression");
 
 const db = require("./utils/db");
@@ -12,17 +16,22 @@ app.use(express.static("./public"));
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
+//yourkolperiapp.herokuapp.com:*
+
 // COOKIE SESSION ////// COOKIE SESSION ////// COOKIE SESSION ////
 const cookieSession = require("cookie-session");
 const { cookieData } = require("./cookies");
 var secret = cookieData();
 //secret = process.env.SESSION_SECRET;
-app.use(
-    cookieSession({
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        secret: secret
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    secret: secret
+});
+app.use(cookieSessionMiddleware);
+
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 // COOKIE SESSION ////// COOKIE SESSION ////// COOKIE SESSION ////
 
 var multer = require("multer");
@@ -370,6 +379,26 @@ app.post("/user", checkUser, uploader.single("file"), s3.upload, async function(
     }
 });
 
+app.post("/default/user", checkUser, async function(req, res) {
+    if (req.body != undefined) {
+        db.updateBio(req.body.bio, req.session.userId);
+    }
+    if (req.body.filename != undefined) {
+        try {
+            const url = req.body.filename;
+            await db.updateAvatar(url, req.session.userId);
+            res.json({
+                data: { url: url, id: req.session.userId }
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    } else {
+        // bio was updated / no file upload
+        res.sendStatus(200);
+    }
+});
+
 app.get("/logout", (req, res) => {
     req.session.userId = undefined;
     res.redirect("/welcome");
@@ -387,11 +416,7 @@ app.get("*", (req, res) => {
     }
 });
 
-if (require.main == module) {
-    app.listen(process.env.PORT || 8080, () =>
-        console.log("SocialNetwork-Sidetracked")
-    );
-}
+// NO ROUTE HANDLING BEYOND THIS POINT
 
 function checkUser(req, res, next) {
     if (!req.session.userId) {
@@ -400,3 +425,37 @@ function checkUser(req, res, next) {
         next();
     }
 }
+
+server.listen(8080, function() {
+    console.log("SocialNetwork-Sidetracked");
+});
+
+// SOCKET IO // SOCKET IO // SOCKET IO // SOCKET IO
+
+let onlineUsers = {};
+
+io.on("connection", socket => {
+    if (!socket.request.session || !socket.request.session.userId) {
+        console.log("disconnecting user");
+        return socket.disconnect(true);
+    }
+    // we know this user by the initial handshake
+    const userId = socket.request.session.userId;
+    onlineUsers[socket.id] = userId;
+
+    console.log("socket with the id ${socket.id} is now connected");
+
+    //db.getUsersByIds(onlineUsers);
+
+    //socket.emit("hello", { funkychicken: "yellow" });
+
+    //io.emit("newConnector", "another one!");
+    // or
+    //io.sockets.emit("newConnector", "another one!");
+
+    // Object.values(onlineUsers)
+
+    socket.on("disconnect", () => {
+        console.log("socket with the id ${socket.id} is now disconnected");
+    });
+});

@@ -82,6 +82,12 @@ button {
     text-align: center;
     padding-top: 2px;
     overflow: hidden;
+    transition: 0.5s ease-in-out;
+}
+
+.friendrequest:hover {
+    background: url(blackshine.png);
+    transform: translate(0, 2px);
 }
 
 .user {
@@ -89,6 +95,10 @@ button {
     margin-top: 5px;
     width: 150px;
     height: 150px;
+}
+
+label img {
+    position: absolute;
 }
 
 @media only screen and (width: 1024px) {

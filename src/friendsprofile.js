@@ -1,9 +1,10 @@
 import React from "react";
-import axios from "./axios";
 
 import style from "./styling.js";
 
 import { connect } from "react-redux";
+
+import { getFriends, friendRequests, friendRemoval } from "./actions";
 
 class FriendsProfile extends React.Component {
     componentDidMount() {
@@ -110,40 +111,6 @@ class FriendsProfile extends React.Component {
             </div>
         );
     }
-}
-
-async function getFriends() {
-    const { data } = await axios.get("/state/friendsnrequests", {
-        headers: {
-            getme: "friendships"
-        }
-    });
-    return {
-        type: "GET_USERS",
-        users: data
-    };
-}
-
-async function friendRequests(id) {
-    await axios.post("/state/friendrequests", {
-        getme: "friendships",
-        id: id
-    });
-    return {
-        type: "ADD_FRIEND",
-        id
-    };
-}
-
-async function friendRemoval(id) {
-    await axios.post("/state/friendrequests", {
-        getme: "friendships",
-        id: id
-    });
-    return {
-        type: "REMOVE_FRIEND",
-        id
-    };
 }
 
 function mapStateToProps(state) {

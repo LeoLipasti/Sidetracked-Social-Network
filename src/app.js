@@ -46,6 +46,21 @@ export default class App extends React.Component {
                 this.setState({ error: "error" });
             });
     }
+    fileDefault(file) {
+        this.setState({ id: undefined });
+        axios
+            .post("/default/user", {
+                filename: file,
+                bio: this.state.bio
+            })
+            .then(url => {
+                this.setState({ avatar: url });
+                location.replace("/");
+            })
+            .catch(() => {
+                this.setState({ error: "error" });
+            });
+    }
     bioUpload() {
         this.setState({ bioEditMode: false });
         let formData = new FormData();
@@ -58,7 +73,7 @@ export default class App extends React.Component {
         if (!this.state.id) {
             return (
                 <div style={style.data.registerloginbg}>
-                    <img src={"./logo.gif"} width="42px" />
+                    <img src={"./logo_small.png"} width="42px" />
                     <ProfilePic
                         displstyle={style.data.usericon}
                         avatar={"./spinner.gif"}
@@ -71,7 +86,7 @@ export default class App extends React.Component {
         }
         return (
             <div style={style.data.registerloginbg}>
-                <img src={"./logo.gif"} width="42px" />
+                <img src={"./logo_small.png"} width="42px" />
                 <a href="/">Profile</a> <a href="/friends">Friends</a>
                 <ProfilePic
                     displstyle={style.data.usericon}
@@ -141,6 +156,7 @@ export default class App extends React.Component {
                             this.setState({ isUloaderVisible: false })
                         }
                         fileChange={e => this.fileUpload(e)}
+                        fileChangeDefaults={e => this.fileDefault(e)}
                         avatar={this.state.avatar}
                         avatarscale={"75px"}
                     />

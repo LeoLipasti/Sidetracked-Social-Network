@@ -89,3 +89,8 @@ exports.friendshiplog = function friendshiplog(log, uniqcode) {
     let params = [String(log), uniqcode];
     return db.query(q, params);
 };
+
+exports.getUsersByIds = function getUsersByIds(arrayOfIds) {
+    const query = `SELECT id, first, last, pic FROM users WHERE id = ANY($1)`;
+    return db.query(query, [arrayOfIds]);
+};
