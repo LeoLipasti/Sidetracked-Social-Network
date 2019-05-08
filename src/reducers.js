@@ -54,5 +54,12 @@ export default function(state = {}, action) {
             })
         };
     }
+    if (action.type == "ONLINE_CHAT_MESSAGE") {
+        state = {
+            ...state,
+            showMessages: state.showMessages.concat(action.message)
+        };
+    }
+
     return state;
 }

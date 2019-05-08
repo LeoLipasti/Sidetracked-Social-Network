@@ -136,6 +136,31 @@ const MainStyle = {
         textAlign: "center",
         fontSize: "12px",
         width: "75px"
+    },
+    longbox: {
+        width: "100%",
+        height: "100vh",
+        boxShadow: "-1px -4px 15px " + lowlineColor,
+        borderStyle: "solid",
+        borderRadius: borderRadius + "px",
+        borderWidth: borderWidth,
+        borderColor: borderColor,
+        backgroundColor: topColor
+    },
+    chatbg: {
+        width: "400px",
+        height: "500px",
+        margin: "auto",
+        minHeight: "200px",
+        boxSizing: "border-box",
+        color: textColor,
+        textAlign: "center",
+        boxShadow: "-1px -4px 15px " + lowlineColor,
+        backgroundColor: topColor,
+        borderRadius: borderRadius * 2 + "px",
+        borderStyle: "solid",
+        borderWidth: borderWidth,
+        borderColor: borderColor
     }
 };
 

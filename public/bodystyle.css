@@ -97,9 +97,39 @@ button {
     height: 150px;
 }
 
+.logo {
+    margin: 5px;
+}
+
+.chatbox {
+    width: 400px;
+    height: 500px;
+    left: calc(50vw - 200px);
+    margin-top: 30px;
+    position: absolute;
+}
+
+.chatbox input {
+    width: 300px;
+    height: 30px;
+    font-family: "Roboto Slab", serif;
+    font-size: 16px;
+    position: absolute;
+}
+
+.chatbox button {
+    width: 100px;
+    left: 300px;
+    height: 30px;
+    font-family: "Roboto Slab", serif;
+    font-size: 16px;
+    position: absolute;
+}
+
 .onlineusers {
-    display: inline;
+    display: inline-block;
     width: 75px;
+    margin: 5px;
 }
 
 label img {
@@ -109,5 +139,12 @@ label img {
 @media only screen and (width: 1024px) {
     body {
         font-size: 3vw;
+    }
+    .chatbox input {
+        width: 40vw;
+    }
+    .chatbox button {
+        left: 40vw;
+        width: 10vw;
     }
 }

@@ -77,7 +77,11 @@ export default class App extends React.Component {
         if (!this.state.id) {
             return (
                 <div style={style.data.registerloginbg}>
-                    <img src={"./logo_small.png"} width="42px" />
+                    <img
+                        src={"./logo_small.png"}
+                        width="42px"
+                        className="logo"
+                    />
                     <ProfilePic
                         displstyle={style.data.usericon}
                         avatar={"./spinner.gif"}
@@ -90,9 +94,9 @@ export default class App extends React.Component {
         }
         return (
             <div style={style.data.registerloginbg}>
-                <img src={"./logo_small.png"} width="42px" />
+                <img src={"./logo_small.png"} width="42px" className="logo" />
                 <a href="/">Profile</a> <a href="/friends">Friends</a>{" "}
-                <a href="/online">Online users</a>
+                <a href="/online">Online users</a> <a href="/chat">Chat</a>
                 <ProfilePic
                     displstyle={style.data.usericon}
                     avatar={this.state.avatar}

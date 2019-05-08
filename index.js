@@ -432,7 +432,10 @@ server.listen(8080, function() {
 
 // SOCKET IO // SOCKET IO // SOCKET IO // SOCKET IO
 
+const chatlive = false;
+
 let onlineUsers = {};
+let onlineChat = {};
 
 io.on("connection", function(socket) {
     if (!socket.request.session || !socket.request.session.userId) {
@@ -456,4 +459,11 @@ io.on("connection", function(socket) {
         console.log("socket with the id ${socket.id} is now disconnected");
         io.emit("userLeft", userId);
     });
+
+    // Right after server restart or clearing server array chatlive prevents messaging before server has loaded previous chat from db and is ready.
+    if (chatlive) {
+        socket.on("chatMessage", data => {
+            console.log(data);
+        });
+    }
 });

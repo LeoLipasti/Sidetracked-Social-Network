@@ -2,14 +2,23 @@ import React from "react";
 
 import style from "./styling.js";
 
-import { connect } from "react-redux";
+import store from "./start";
 
-class OnlineUsers extends React.Component {
+export default class OnlineUsers extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            users: []
+        };
+        store.subscribe(() => {
+            console.log(store.getState());
+            this.setState({
+                users: store.getState().onlineusers
+            });
+        });
     }
     render() {
-        if (!this.props.users) {
+        if (!this.state.users) {
             return <div>Null</div>;
         }
         const onlineusers = (
@@ -17,8 +26,8 @@ class OnlineUsers extends React.Component {
                 <p style={style.data.themetext}>
                     Users who are online right now :
                 </p>
-                <div style={style.data.longbox}>
-                    {this.props.users.map(user => (
+                <div>
+                    {this.state.users.map(user => (
                         <div key={user.id} className="onlineusers">
                             <a href={"/user/" + user.id}>
                                 <div style={style.data.themetextsmall}>
@@ -35,15 +44,6 @@ class OnlineUsers extends React.Component {
                 </div>
             </div>
         );
-        return <div>{!!this.props.users.length && onlineusers}</div>;
+        return <div>{!!this.state.users.length && onlineusers}</div>;
     }
 }
-
-function mapStateToProps(state) {
-    // state refers to global redux state
-    return {
-        users: state.onlineusers && state.onlineusers
-    };
-}
-
-export default connect(mapStateToProps)(OnlineUsers);

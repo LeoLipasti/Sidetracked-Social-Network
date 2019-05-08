@@ -37,7 +37,6 @@ export async function friendRemoval(id) {
 
 // socket io
 export async function onlineUsers(users) {
-    console.log("online users");
     return {
         type: "ONLINE_USERS",
         users
@@ -45,7 +44,6 @@ export async function onlineUsers(users) {
 }
 
 export async function userJoined(user) {
-    console.log("user add");
     return {
         type: "ONLINE_USER_ADD",
         user
@@ -53,9 +51,16 @@ export async function userJoined(user) {
 }
 
 export async function userLeft(user) {
-    console.log("user remove");
     return {
         type: "ONLINE_USER_REMOVE",
         user
+    };
+}
+
+export async function chatMessage(message) {
+    console.log("chat message");
+    return {
+        type: "ONLINE_CHAT_MESSAGE",
+        message
     };
 }
