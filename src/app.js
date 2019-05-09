@@ -12,6 +12,7 @@ import Uploader from "./uploader";
 
 import Profile from "./profile";
 import EditBio from "./bioeditor";
+import ProfSettings from "./profilesettings";
 
 import FriendsProfile from "./friendsprofile";
 
@@ -150,6 +151,7 @@ export default class App extends React.Component {
                                             postBio={() => this.bioUpload()}
                                         />
                                     }
+                                    pSettings={<ProfSettings />}
                                 />
                             )}
                         />

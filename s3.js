@@ -1,6 +1,8 @@
 const knox = require("knox-s3");
 const fs = require("fs");
 
+const config = require("./config");
+
 let secrets;
 if (process.env.NODE_ENV == "production") {
     secrets = process.env; // in prod the secrets are environment variables
@@ -13,6 +15,23 @@ const client = knox.createClient({
     secret: secrets.AWS_SECRET,
     bucket: "kolperi"
 });
+
+exports.deleteLastAvatar = function(queryurl) {
+    let url = queryurl.rows[0].avatar;
+    if (url.split("/")[1] != "avatars") {
+        client
+            .del(url.replace(config.s3Url, "/"))
+            .on("response", s3Response => {
+                let log = s3Response.statusCode;
+            })
+            .end(() => {
+                return;
+            });
+    } else {
+        console.log("was default avatar");
+        return;
+    }
+};
 
 exports.upload = function(req, res, next) {
     if (!req.file) {

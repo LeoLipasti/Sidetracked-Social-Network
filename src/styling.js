@@ -11,15 +11,51 @@ let borderWidth = "1px";
 let borderRadius = 5;
 
 if (localStorage.getItem("STstyle") === "orange") {
-    textColor = "red";
+    textColor = "#000033";
     errorColor = "red";
-    topColor = "red";
-    baseColor = "red";
-    lowlineColor = "red";
+    topColor = "#ffcc66";
+    baseColor = "#ff9933";
+    lowlineColor = "#cc6600";
     borderColor = "white " + lowlineColor + " " + lowlineColor + " white";
     borderButton = "silver orange orange silver";
     borderWidth = "1px";
     borderRadius = 8;
+}
+
+if (localStorage.getItem("STstyle") === "black") {
+    textColor = "white";
+    errorColor = "red";
+    topColor = "black";
+    baseColor = "#ffcc66";
+    lowlineColor = "#cc6600";
+    borderColor = "yellow " + lowlineColor + " " + lowlineColor + " yellow";
+    borderButton = "silver orange orange silver";
+    borderWidth = "1px";
+    borderRadius = 4;
+}
+
+if (localStorage.getItem("STstyle") === "newretro") {
+    textColor = "#330033";
+    errorColor = "red";
+    topColor = "#b3b3ff";
+    baseColor = "#a64dff";
+    lowlineColor = "white";
+    borderColor = "white " + lowlineColor + " " + lowlineColor + " white";
+    borderButton = "silver orange orange silver";
+    borderWidth = "1px";
+    borderRadius = 10;
+}
+
+if (localStorage.getItem("STstyle") === "white") {
+    textColor = "white";
+    errorColor = "red";
+    topColor = "#595959";
+    baseColor = "#f2f2f2";
+    lowlineColor = "white";
+    borderColor = "orange " + lowlineColor + " " + lowlineColor + " orange";
+    borderButton = "silver orange orange silver";
+    borderWidth = "1px";
+    borderRadius = 2;
 }
 
 const MainStyle = {
@@ -111,7 +147,8 @@ const MainStyle = {
         borderRadius: borderRadius + "px",
         borderWidth: borderWidth,
         borderColor: borderColor,
-        backgroundColor: topColor
+        backgroundColor: topColor,
+        color: textColor
     },
     friends: {
         width: "100vw",

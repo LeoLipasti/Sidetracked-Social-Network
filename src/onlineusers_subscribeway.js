@@ -4,6 +4,8 @@ import style from "./styling.js";
 
 import store from "./start";
 
+import { Link } from "react-router-dom";
+
 export default class OnlineUsers extends React.Component {
     constructor(props) {
         super(props);
@@ -29,7 +31,7 @@ export default class OnlineUsers extends React.Component {
                 <div>
                     {this.state.users.map(user => (
                         <div key={user.id} className="onlineusers">
-                            <a href={"/user/" + user.id}>
+                            <Link to={"/user/" + user.id}>
                                 <div style={style.data.themetextsmall}>
                                     {user.firstname} {user.lastname}
                                 </div>
@@ -38,7 +40,7 @@ export default class OnlineUsers extends React.Component {
                                     width="75px"
                                     style={style.data.avatar}
                                 />
-                            </a>
+                            </Link>
                         </div>
                     ))}
                 </div>

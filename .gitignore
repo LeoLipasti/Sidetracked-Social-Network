@@ -3,3 +3,4 @@ node_modules
 secrets.json
 secret.js
 cookies.js
+config.json

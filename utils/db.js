@@ -5,17 +5,31 @@ const { localdataBase } = require("../secret");
 db = spicedPg(localdataBase());
 //db = spicedPg(process.env.DATABASE_URL);
 
+const s3 = require("../s3");
+
 exports.createUser = function createUser(first, last, email, passw) {
     let q = `INSERT INTO users (firstname, lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING id`;
     let params = [first, last, email, passw];
     return db.query(q, params);
 };
 
-exports.updateAvatar = function updateAvatar(url, id) {
+exports.updateAvatar = async function updateAvatar(url, id) {
+    const oldavatar = await getOldAvatar(id);
+    s3.deleteLastAvatar(oldavatar);
+    return updateNewAvatar(url, id);
+};
+
+function getOldAvatar(id) {
+    let q = `SELECT avatar FROM users WHERE id=$1`;
+    let params = [id];
+    return db.query(q, params);
+}
+
+function updateNewAvatar(url, id) {
     let q = `UPDATE users SET avatar = $1 WHERE id=$2`;
     let params = [url, id];
     return db.query(q, params);
-};
+}
 
 exports.updateBio = function updateBio(url, id) {
     let q = `UPDATE users SET bio = $1 WHERE id=$2`;

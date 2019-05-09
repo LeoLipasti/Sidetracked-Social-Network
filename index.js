@@ -432,7 +432,7 @@ const chatlive = false;
 let onlineUsers = {};
 let onlineChat = {};
 
-db.io.on("connection", function(socket) {
+io.on("connection", function(socket) {
     if (!socket.request.session || !socket.request.session.userId) {
         return socket.disconnect(true);
     }
