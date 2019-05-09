@@ -14,7 +14,7 @@ const store = createStore(
     reducer,
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
-// for onlineusers.js
+// for onlineusers_subscribeway.js
 export default store;
 
 import Welcome from "./welcome";

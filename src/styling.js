@@ -1,15 +1,26 @@
-// Im planning to make different color themes but thats for bonus feature time
 // readymade color themes, store selection in localStorage
 
-const textColor = "#000033";
-const errorColor = "red";
-const topColor = "#99bbff";
-const baseColor = "#e6f7ff";
-const lowlineColor = "#99ccff";
-const borderColor = "white " + lowlineColor + " " + lowlineColor + " white";
-const borderButton = "silver orange orange silver";
-const borderWidth = "1px";
-const borderRadius = 5;
+let textColor = "#000033";
+let errorColor = "red";
+let topColor = "#99bbff";
+let baseColor = "#e6f7ff";
+let lowlineColor = "#99ccff";
+let borderColor = "white " + lowlineColor + " " + lowlineColor + " white";
+let borderButton = "silver orange orange silver";
+let borderWidth = "1px";
+let borderRadius = 5;
+
+if (localStorage.getItem("STstyle") === "orange") {
+    textColor = "red";
+    errorColor = "red";
+    topColor = "red";
+    baseColor = "red";
+    lowlineColor = "red";
+    borderColor = "white " + lowlineColor + " " + lowlineColor + " white";
+    borderButton = "silver orange orange silver";
+    borderWidth = "1px";
+    borderRadius = 8;
+}
 
 const MainStyle = {
     registerloginbg: {

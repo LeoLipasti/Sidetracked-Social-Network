@@ -81,7 +81,6 @@ if (process.env.NODE_ENV != "production") {
 }
 
 app.get("/welcome", (req, res) => {
-    console.log(req.session.userId);
     if (req.session.userId) {
         console.log("/ from welcome");
         res.redirect("/");
@@ -93,7 +92,6 @@ app.get("/welcome", (req, res) => {
 // LOGIN //// LOGIN //// LOGIN //// LOGIN //
 
 app.get("/login", (req, res) => {
-    console.log(req.session.userId);
     if (req.session.userId) {
         console.log("/ from login");
         res.redirect("/");
@@ -137,7 +135,6 @@ app.post("/login", async (req, res) => {
 
 app.get("/register", (req, res) => {
     if (req.session.userId) {
-        console.log("/ from register");
         res.redirect("/");
     } else {
         res.sendFile(__dirname + "/index.html");
@@ -273,7 +270,6 @@ app.get("/state/friendsnrequests", checkUser, async (req, res) => {
     // friends route
     if (!req.headers.getme) {
         // get is not coming from app page
-        console.log("request not coming from app page");
         res.redirect("/");
     } else {
         try {
@@ -289,7 +285,6 @@ app.get("/state/friendsnrequests", checkUser, async (req, res) => {
 app.get("/static/user/:something", checkUser, async (req, res) => {
     if (!req.headers.getme) {
         // get is not coming from app page
-        console.log("request not coming from app page");
         res.redirect("/");
     } else {
         const data = {};
@@ -437,7 +432,7 @@ const chatlive = false;
 let onlineUsers = {};
 let onlineChat = {};
 
-io.on("connection", function(socket) {
+db.io.on("connection", function(socket) {
     if (!socket.request.session || !socket.request.session.userId) {
         return socket.disconnect(true);
     }

@@ -95,21 +95,23 @@ export default class App extends React.Component {
         return (
             <div style={style.data.registerloginbg}>
                 <img src={"./logo_small.png"} width="42px" className="logo" />
-                <a href="/">Profile</a> <a href="/friends">Friends</a>{" "}
-                <a href="/online">Online users</a> <a href="/chat">Chat</a>
-                <ProfilePic
-                    displstyle={style.data.usericon}
-                    avatar={this.state.avatar}
-                    first={this.state.first}
-                    last={this.state.last}
-                    avatarscale={"75px"}
-                    clickHandler={() =>
-                        this.setState({ isUloaderVisible: true })
-                    }
-                />
                 {/* Profile */}
                 <BrowserRouter>
                     <div>
+                        <Link to="/">Profile</Link>{" "}
+                        <Link to="/friends">Friends</Link>{" "}
+                        <Link to="/online">Online users</Link>{" "}
+                        <Link to="/chat">Chat</Link>
+                        <ProfilePic
+                            displstyle={style.data.usericon}
+                            avatar={this.state.avatar}
+                            first={this.state.first}
+                            last={this.state.last}
+                            avatarscale={"75px"}
+                            clickHandler={() =>
+                                this.setState({ isUloaderVisible: true })
+                            }
+                        />
                         <Route
                             exact
                             path="/"
