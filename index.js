@@ -427,9 +427,6 @@ server.listen(8080, function() {
 
 // SOCKET IO // SOCKET IO // SOCKET IO // SOCKET IO
 
-// change to false once db query is ready
-const chatlive = true;
-
 let onlineUsers = {};
 let onlineChat = [];
 
@@ -449,7 +446,7 @@ io.on("connection", function(socket) {
         })
         .then(() => {
             io.sockets.emit("userJoined", userId);
-            displayChat(onlineChat).then(displayReady => {
+            displayChat(onlineChat.slice(-16)).then(displayReady => {
                 socket.emit("onlineChat", displayReady);
             });
         });
@@ -459,20 +456,16 @@ io.on("connection", function(socket) {
         io.sockets.emit("userLeft", userId);
     });
 
-    if (chatlive) {
-        socket.on("chatMessage", data => {
-            onlineChat.push({ message: data, user: userId });
-            displayChat([{ message: data, user: userId }]).then(
-                displayReady => {
-                    io.sockets.emit("onlineChatEntry", displayReady);
-                }
-            );
-            if (onlineChat.length > 50) {
-                let pushChats = onlineChat.splice(0, 25);
-                db.insertChats(pushChats);
-            }
+    socket.on("chatMessage", data => {
+        onlineChat.push({ message: data, user: userId });
+        displayChat([{ message: data, user: userId }]).then(displayReady => {
+            io.sockets.emit("onlineChatEntry", displayReady);
         });
-    }
+        if (onlineChat.length > 20) {
+            let pushChats = onlineChat.splice(0, 10);
+            db.insertChats(pushChats);
+        }
+    });
 });
 
 async function displayChat(chatarray) {

@@ -112,8 +112,8 @@ exports.getUsersByIds = function getUsersByIds(arrayOfIds) {
 
 // CHAT queries
 
-exports.insertChats = function insertChats(arrayOfObj) {
+exports.insertChats = function insertChats(message, messager) {
     let q = `INSERT INTO chat (message, messager) VALUES ($1, $2)`;
-    let params = [first, last, email, passw];
+    let params = [message, messager];
     return db.query(q, params);
 };

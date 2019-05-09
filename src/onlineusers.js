@@ -4,13 +4,15 @@ import style from "./styling.js";
 
 import { connect } from "react-redux";
 
+import { Link } from "react-router-dom";
+
 class OnlineUsers extends React.Component {
     constructor(props) {
         super(props);
     }
     render() {
         if (!this.props.users) {
-            return <div>Null</div>;
+            return <div />;
         }
         const onlineusers = (
             <div>
@@ -20,7 +22,7 @@ class OnlineUsers extends React.Component {
                 <div style={style.data.longbox}>
                     {this.props.users.map(user => (
                         <div key={user.id} className="onlineusers">
-                            <a href={"/user/" + user.id}>
+                            <Link to={"/user/" + user.id}>
                                 <div style={style.data.themetextsmall}>
                                     {user.firstname} {user.lastname}
                                 </div>
@@ -29,7 +31,7 @@ class OnlineUsers extends React.Component {
                                     width="75px"
                                     style={style.data.avatar}
                                 />
-                            </a>
+                            </Link>
                         </div>
                     ))}
                 </div>

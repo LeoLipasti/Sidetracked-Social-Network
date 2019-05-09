@@ -6,10 +6,12 @@ import { connect } from "react-redux";
 
 import { socket } from "./socket";
 
+import { Link } from "react-router-dom";
+
 class Chat extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { message: "" };
+        this.state = { message: "", sidechat: false };
         this.handleInput.bind(this);
     }
 
@@ -23,36 +25,70 @@ class Chat extends React.Component {
         this.setState({ message: e.target.value });
     }
 
-    componentDidUpdate() {
-        this.chatDiv.scrollTop = "100px";
-    }
-
     render() {
-        return (
-            <div className="chatbox">
-                <div
-                    id="chat-messages"
-                    style={style.data.chatbg}
-                    ref={chatCont => (this.chatDiv = chatCont)}
-                >
-                    /* messages go here */
+        if (!this.props.chatMessages) {
+            return <div />;
+        } else {
+            return (
+                <div className="chatbox">
+                    <div
+                        className="chats-container"
+                        style={style.data.chatbg}
+                        ref={chatsContainer => (this.myDiv = chatsContainer)}
+                    >
+                        {this.props.chatMessages.map((user, index) => (
+                            <div
+                                key={index}
+                                className="chatsinglecontainer"
+                                style={{
+                                    bottom:
+                                        (this.props.chatMessages.length -
+                                            index) *
+                                            35 +
+                                        "px"
+                                }}
+                            >
+                                <div>
+                                    <Link to={"/user/" + user.id}>
+                                        <div className="chatboxavatar">
+                                            <img
+                                                src={
+                                                    user.avatar ||
+                                                    "/placeholder.png"
+                                                }
+                                                width="25px"
+                                            />
+                                        </div>
+                                    </Link>
+                                    <div className="chatboxname">
+                                        {user.username} :
+                                    </div>
+                                    <div className="chatboxmessage">
+                                        {user.message}
+                                    </div>
+                                    <div className="sidetrackbutton">s</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <form
+                        id="messagefield"
+                        autoComplete="false"
+                        onSubmit={e => this.handleInput(e)}
+                    >
+                        <input
+                            autoComplete="off"
+                            name="chatmessage"
+                            onChange={e => this.handleChange(e)}
+                            type="textfield"
+                            size="60"
+                            maxLength="35"
+                        />
+                        <button>Send</button>
+                    </form>
                 </div>
-                <form
-                    id="messagefield"
-                    autoComplete="false"
-                    onSubmit={e => this.handleInput(e)}
-                >
-                    <input
-                        autoComplete="off"
-                        name="chatmessage"
-                        onChange={e => this.handleChange(e)}
-                        type="textfield"
-                        size="60"
-                    />
-                    <button>Send</button>
-                </form>
-            </div>
-        );
+            );
+        }
     }
 }
 

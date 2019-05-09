@@ -54,10 +54,23 @@ export default function(state = {}, action) {
             })
         };
     }
+    if (action.type == "SEND_CHAT_MESSAGE") {
+        state = {
+            ...state,
+            showMessages: state.showMessages.concat(action.message)
+        };
+    }
     if (action.type == "ONLINE_CHAT_MESSAGE") {
         state = {
             ...state,
             showMessages: state.showMessages.concat(action.message)
+        };
+    }
+
+    if (action.type == "ONLINE_CHAT_MESSAGES") {
+        state = {
+            ...state,
+            showMessages: action.messages
         };
     }
 
