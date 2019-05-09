@@ -55,6 +55,8 @@ exports.queryLoginID = function queryLoginID(email) {
     return db.query(q, params);
 };
 
+// FRIENDSHIP QUERIES
+
 exports.queryFriendship = function queryFriendship(uniqcode) {
     let q = `SELECT accepted, requester, receiver FROM friendships WHERE uniqcode = $1`;
     let params = [uniqcode];
@@ -85,7 +87,6 @@ exports.modifyFriendship = function modifyFriendship(
     return db.query(q, params);
 };
 
-// no friendship data yet - unqcode, requester, receiver, accepted , log
 exports.addFriendship = function addFriendship(
     uniqcode,
     requester,
@@ -107,4 +108,12 @@ exports.friendshiplog = function friendshiplog(log, uniqcode) {
 exports.getUsersByIds = function getUsersByIds(arrayOfIds) {
     const query = `SELECT id, firstname, lastname, avatar FROM users WHERE id = ANY($1)`;
     return db.query(query, [arrayOfIds]);
+};
+
+// CHAT queries
+
+exports.insertChats = function insertChats(arrayOfObj) {
+    let q = `INSERT INTO chat (message, messager) VALUES ($1, $2)`;
+    let params = [first, last, email, passw];
+    return db.query(q, params);
 };

@@ -59,6 +59,52 @@ if (localStorage.getItem("STstyle") === "white") {
 }
 
 const MainStyle = {
+    stylebox: {
+        display: "inline-block",
+        width: "auto",
+        height: "20px",
+        marginRight: "10px"
+    },
+    stylebox1: {
+        width: "20px",
+        height: "20px",
+        backgroundColor: "#e6f7ff",
+        display: "inline-block",
+        borderRadius: "4px",
+        marginLeft: "2px"
+    },
+    stylebox2: {
+        width: "20px",
+        height: "20px",
+        backgroundColor: "#ffcc66",
+        display: "inline-block",
+        borderRadius: "4px",
+        marginLeft: "2px"
+    },
+    stylebox3: {
+        width: "20px",
+        height: "20px",
+        backgroundColor: "black",
+        display: "inline-block",
+        borderRadius: "4px",
+        marginLeft: "2px"
+    },
+    stylebox4: {
+        width: "20px",
+        height: "20px",
+        backgroundColor: "#a64dff",
+        display: "inline-block",
+        borderRadius: "4px",
+        marginLeft: "2px"
+    },
+    stylebox5: {
+        width: "20px",
+        height: "20px",
+        backgroundColor: "#595959",
+        display: "inline-block",
+        borderRadius: "4px",
+        marginLeft: "2px"
+    },
     registerloginbg: {
         width: "100vw",
         height: "100vh",
@@ -100,10 +146,11 @@ const MainStyle = {
         // as parameter, check app for details
         width: "100px",
         height: "100px",
-        padding: "5px",
+        padding: "2px",
         textAlign: "center",
-        display: "inline",
-        float: "right"
+        position: "absolute",
+        right: "0",
+        top: "0"
         // DO NOT MOVE THIS TO CSS FILES !
         // This style is passed into avatar pics
         // as parameter, check app for details
@@ -169,7 +216,7 @@ const MainStyle = {
         borderWidth: borderWidth,
         borderColor: borderColor,
         backgroundColor: topColor,
-        cursor: "pointer",
+        color: textColor,
         fontFamily: "'EB Garamond', serif"
     },
     box: {

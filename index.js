@@ -427,10 +427,11 @@ server.listen(8080, function() {
 
 // SOCKET IO // SOCKET IO // SOCKET IO // SOCKET IO
 
-const chatlive = false;
+// change to false once db query is ready
+const chatlive = true;
 
 let onlineUsers = {};
-let onlineChat = {};
+let onlineChat = [];
 
 io.on("connection", function(socket) {
     if (!socket.request.session || !socket.request.session.userId) {
@@ -447,18 +448,68 @@ io.on("connection", function(socket) {
             socket.emit("onlineUsers", rows);
         })
         .then(() => {
-            io.emit("userJoined", userId);
+            io.sockets.emit("userJoined", userId);
+            displayChat(onlineChat).then(displayReady => {
+                socket.emit("onlineChat", displayReady);
+            });
         });
 
     socket.on("disconnect", () => {
         console.log("socket with the id ${socket.id} is now disconnected");
-        io.emit("userLeft", userId);
+        io.sockets.emit("userLeft", userId);
     });
 
-    // Right after server restart or clearing server array chatlive prevents messaging before server has loaded previous chat from db and is ready.
     if (chatlive) {
         socket.on("chatMessage", data => {
-            console.log(data);
+            onlineChat.push({ message: data, user: userId });
+            displayChat([{ message: data, user: userId }]).then(
+                displayReady => {
+                    io.sockets.emit("onlineChatEntry", displayReady);
+                }
+            );
+            if (onlineChat.length > 50) {
+                let pushChats = onlineChat.splice(0, 25);
+                db.insertChats(pushChats);
+            }
         });
     }
 });
+
+async function displayChat(chatarray) {
+    const returnchatarray = [];
+    const userids = [];
+    // list of user ids in given chatarray
+    for (var i = 0; i < chatarray.length; i++) {
+        if (!userids.includes(chatarray[i].user)) {
+            userids.push(chatarray[i].user);
+        }
+    }
+    const userobjs = [];
+    // query to get display details for user ids
+    const results = await db.getUsersByIds(userids);
+    for (var o = 0; o < results.rows.length; o++) {
+        userobjs.push(results.rows[o]);
+    }
+    // making new objects for return
+    for (var u = 0; u < chatarray.length; u++) {
+        let message = chatarray[u].message;
+        let idindex;
+        // get query result id for this one
+        for (var r = 0; r < userobjs.length; r++) {
+            if (chatarray[u].user == userobjs[r].id) {
+                idindex = r;
+                break;
+            }
+        }
+        // a new object
+        let returnuser = {
+            message: message,
+            username:
+                userobjs[idindex].firstname + " " + userobjs[idindex].lastname,
+            avatar: userobjs[idindex].avatar,
+            id: userobjs[idindex].id
+        };
+        returnchatarray.push(returnuser);
+    }
+    return returnchatarray;
+}
