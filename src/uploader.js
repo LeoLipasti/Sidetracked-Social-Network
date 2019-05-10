@@ -71,7 +71,7 @@ export default function Uploader({
                     style={style.data.hidden}
                 />
             </div>
-            <p className="infotext">upload only images less than 2mb</p>
+            <p className="infotext">upload only images less than 2MB</p>
             <div onClick={clickHandler} style={style.data.uploadimage_close}>
                 X
             </div>

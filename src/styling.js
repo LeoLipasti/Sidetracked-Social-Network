@@ -164,7 +164,7 @@ const MainStyle = {
     },
     uploadimage: {
         width: "550px",
-        height: "180px",
+        height: "200px",
         marginLeft: "calc(50% - 275px)",
         textAlign: "center",
         position: "absolute",

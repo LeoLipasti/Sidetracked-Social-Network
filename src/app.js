@@ -103,6 +103,12 @@ export default class App extends React.Component {
                         <Link to="/friends">Friends</Link>{" "}
                         <Link to="/online">Online users</Link>{" "}
                         <Link to="/chat">Chat</Link>
+                        <Link
+                            to="/logout"
+                            style={{ color: "grey", fontSize: "12px" }}
+                        >
+                            Logout
+                        </Link>
                         <ProfilePic
                             displstyle={style.data.usericon}
                             avatar={this.state.avatar}

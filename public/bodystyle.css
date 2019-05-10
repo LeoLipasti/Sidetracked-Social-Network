@@ -152,7 +152,7 @@ button {
 .chatbox {
     width: 400px;
     height: 530px;
-    left: calc(50vw - 400px);
+    left: calc(50vw - 200px);
     margin-top: 30px;
     position: absolute;
     overflow-y: scroll;

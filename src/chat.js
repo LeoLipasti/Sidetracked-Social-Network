@@ -21,71 +21,95 @@ class Chat extends React.Component {
         document.getElementById("messagefield").reset();
     }
 
+    selectViewId(e) {
+        e.preventDefault();
+        socket.emit("selectViewId", this.state.message);
+        document.getElementById("messagefield").reset();
+    }
+
     handleChange(e) {
         this.setState({ message: e.target.value });
     }
 
     render() {
         if (!this.props.chatMessages) {
-            return <div />;
+            return (
+                <div>
+                    <div className="chatbox">
+                        <div style={style.data.chatbg} />
+                        <form
+                            id="messagefield"
+                            autoComplete="false"
+                            onSubmit={e => this.handleInput(e)}
+                        >
+                            <input
+                                autoComplete="off"
+                                name="chatmessage"
+                                onChange={e => this.handleChange(e)}
+                                type="textfield"
+                                size="60"
+                                maxLength="35"
+                            />
+                            <button>Send</button>
+                        </form>
+                    </div>
+                </div>
+            );
         } else {
             return (
-                <div className="chatbox">
-                    <div
-                        className="chats-container"
-                        style={style.data.chatbg}
-                        ref={chatsContainer => (this.myDiv = chatsContainer)}
-                    >
-                        {this.props.chatMessages.map((user, index) => (
-                            <div
-                                key={index}
-                                className="chatsinglecontainer"
-                                style={{
-                                    bottom:
-                                        (this.props.chatMessages.length -
-                                            index) *
-                                            35 +
-                                        "px"
-                                }}
-                            >
-                                <div>
-                                    <Link to={"/user/" + user.id}>
-                                        <div className="chatboxavatar">
-                                            <img
-                                                src={
-                                                    user.avatar ||
-                                                    "/placeholder.png"
-                                                }
-                                                width="25px"
-                                            />
+                <div>
+                    <div className="chatbox">
+                        <div style={style.data.chatbg}>
+                            {this.props.chatMessages.map((user, index) => (
+                                <div
+                                    key={index}
+                                    className="chatsinglecontainer"
+                                    style={{
+                                        bottom:
+                                            (this.props.chatMessages.length -
+                                                index) *
+                                                35 +
+                                            "px"
+                                    }}
+                                >
+                                    <div>
+                                        <Link to={"/user/" + user.id}>
+                                            <div className="chatboxavatar">
+                                                <img
+                                                    src={
+                                                        user.avatar ||
+                                                        "/placeholder.png"
+                                                    }
+                                                    width="25px"
+                                                />
+                                            </div>
+                                        </Link>
+                                        <div className="chatboxname">
+                                            {user.username} :
                                         </div>
-                                    </Link>
-                                    <div className="chatboxname">
-                                        {user.username} :
+                                        <div className="chatboxmessage">
+                                            {user.message}
+                                        </div>
                                     </div>
-                                    <div className="chatboxmessage">
-                                        {user.message}
-                                    </div>
-                                    <div className="sidetrackbutton">s</div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+                        <form
+                            id="messagefield"
+                            autoComplete="false"
+                            onSubmit={e => this.handleInput(e)}
+                        >
+                            <input
+                                autoComplete="off"
+                                name="chatmessage"
+                                onChange={e => this.handleChange(e)}
+                                type="textfield"
+                                size="60"
+                                maxLength="35"
+                            />
+                            <button>Send</button>
+                        </form>
                     </div>
-                    <form
-                        id="messagefield"
-                        autoComplete="false"
-                        onSubmit={e => this.handleInput(e)}
-                    >
-                        <input
-                            autoComplete="off"
-                            name="chatmessage"
-                            onChange={e => this.handleChange(e)}
-                            type="textfield"
-                            size="60"
-                            maxLength="35"
-                        />
-                        <button>Send</button>
-                    </form>
                 </div>
             );
         }

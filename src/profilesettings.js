@@ -8,24 +8,29 @@ export default function Profile() {
             <div style={style.data.stylebox}>Personal Theme</div>
             <div
                 style={style.data.stylebox1}
-                onClick={() => localStorage.setItem("STstyle", "default")}
+                onClick={() => setstyle("default")}
             />
             <div
                 style={style.data.stylebox2}
-                onClick={() => localStorage.setItem("STstyle", "orange")}
+                onClick={() => setstyle("orange")}
             />
             <div
                 style={style.data.stylebox3}
-                onClick={() => localStorage.setItem("STstyle", "black")}
+                onClick={() => setstyle("black")}
             />
             <div
                 style={style.data.stylebox4}
-                onClick={() => localStorage.setItem("STstyle", "newretro")}
+                onClick={() => setstyle("newretro")}
             />
             <div
                 style={style.data.stylebox5}
-                onClick={() => localStorage.setItem("STstyle", "white")}
+                onClick={() => setstyle("white")}
             />
         </div>
     );
+}
+
+function setstyle(style) {
+    localStorage.setItem("STstyle", style);
+    location.reload();
 }

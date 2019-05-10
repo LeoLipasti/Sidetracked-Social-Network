@@ -429,6 +429,11 @@ server.listen(8080, function() {
 
 let onlineUsers = {};
 let onlineChat = [];
+let chatHistory = [];
+
+db.getChatHistory().then(results => {
+    chatHistory = results.rows;
+});
 
 io.on("connection", function(socket) {
     if (!socket.request.session || !socket.request.session.userId) {
@@ -437,22 +442,20 @@ io.on("connection", function(socket) {
     // we know this user by the initial handshake
     const userId = socket.request.session.userId;
     onlineUsers[socket.id] = userId;
-
-    console.log("socket with the id ${socket.id} is now connected");
-
     db.getUsersByIds(Object.values(onlineUsers))
         .then(({ rows }) => {
             socket.emit("onlineUsers", rows);
         })
         .then(() => {
             io.sockets.emit("userJoined", userId);
-            displayChat(onlineChat.slice(-16)).then(displayReady => {
-                socket.emit("onlineChat", displayReady);
-            });
+            displayChat(chatHistory.concat(onlineChat.slice(-16))).then(
+                displayReady => {
+                    socket.emit("onlineChat", displayReady);
+                }
+            );
         });
 
     socket.on("disconnect", () => {
-        console.log("socket with the id ${socket.id} is now disconnected");
         io.sockets.emit("userLeft", userId);
     });
 
@@ -460,11 +463,14 @@ io.on("connection", function(socket) {
         onlineChat.push({ message: data, user: userId });
         displayChat([{ message: data, user: userId }]).then(displayReady => {
             io.sockets.emit("onlineChatEntry", displayReady);
+            if (onlineChat.length > 26) {
+                chatHistory = [];
+                let pushChats = onlineChat.splice(0, 10);
+                for (var o = 0; o < pushChats.length; o++) {
+                    db.insertChats(pushChats[o].message, pushChats[o].user);
+                }
+            }
         });
-        if (onlineChat.length > 20) {
-            let pushChats = onlineChat.splice(0, 10);
-            db.insertChats(pushChats);
-        }
     });
 });
 
@@ -506,3 +512,11 @@ async function displayChat(chatarray) {
     }
     return returnchatarray;
 }
+
+process.on("SIGINT", function() {
+    console.log("shutting down (Ctrl-C)");
+    for (var o = 0; o < onlineChat.length; o++) {
+        db.insertChats(onlineChat[o].message, onlineChat[o].user);
+    }
+    process.exit();
+});

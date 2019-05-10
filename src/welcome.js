@@ -19,6 +19,10 @@ export default class Welcome extends React.Component {
             <div style={style.data.registerloginbg}>
                 <div className="bgimage">
                     <div style={style.data.userbox}>
+                        <img
+                            src="/logo_small.png"
+                            style={{ marginTop: "15px" }}
+                        />
                         <h1>Welcome to Sidetracked the Social Network!</h1>
                         <HashRouter>
                             <div>

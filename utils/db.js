@@ -117,3 +117,8 @@ exports.insertChats = function insertChats(message, messager) {
     let params = [message, messager];
     return db.query(q, params);
 };
+
+exports.getChatHistory = function getChatHistory() {
+    let q = `SELECT message, messager AS user FROM chat ORDER BY id ASC LIMIT 16`;
+    return db.query(q);
+};

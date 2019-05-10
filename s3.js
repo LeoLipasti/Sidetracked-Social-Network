@@ -17,19 +17,27 @@ const client = knox.createClient({
 });
 
 exports.deleteLastAvatar = function(queryurl) {
-    let url = queryurl.rows[0].avatar;
-    if (url.split("/")[1] != "avatars") {
-        client
-            .del(url.replace(config.s3Url, "/"))
-            .on("response", s3Response => {
-                let log = s3Response.statusCode;
-            })
-            .end(() => {
+    console.log(queryurl.rows[0].avatar);
+    if (
+        queryurl.rows[0].avatar != undefined &&
+        queryurl.rows[0].avatar != null
+    ) {
+        let url = queryurl.rows[0].avatar;
+        if (url.split("/").length > 0) {
+            if (url.split("/")[1] != "avatars") {
+                client
+                    .del(url.replace(config.s3Url, "/"))
+                    .on("response", s3Response => {
+                        let log = s3Response.statusCode;
+                    })
+                    .end(() => {
+                        return;
+                    });
+            } else {
+                console.log("was default avatar");
                 return;
-            });
-    } else {
-        console.log("was default avatar");
-        return;
+            }
+        }
     }
 };
 
