@@ -149,14 +149,36 @@ button {
     margin: 5px;
 }
 
+.upscroll {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-image: url("uploadarrow.png");
+    background-size: 20px;
+    z-index: 99999;
+}
+
+.downscroll {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    background-image: url("uploadarrow.png");
+    background-size: 20px;
+    transform: rotate(180deg);
+    bottom: 30px;
+    z-index: 99999;
+}
+
 .chatbox {
     width: 400px;
     height: 530px;
     left: calc(50vw - 200px);
     margin-top: 30px;
     position: absolute;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
     border-radius: 12px;
 }
 

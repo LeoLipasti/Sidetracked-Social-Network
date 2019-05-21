@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 class Chat extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { message: "", sidechat: false };
+        this.state = { message: "", sidechat: false, chatscroll: 0 };
         this.handleInput.bind(this);
     }
 
@@ -29,6 +29,12 @@ class Chat extends React.Component {
 
     handleChange(e) {
         this.setState({ message: e.target.value });
+    }
+
+    changeScroll(s, max) {
+        this.setState({
+            chatscroll: Math.max(Math.min(this.state.chatscroll + s, max), 0)
+        });
     }
 
     render() {
@@ -59,6 +65,24 @@ class Chat extends React.Component {
             return (
                 <div>
                     <div className="chatbox">
+                        <div
+                            className="upscroll"
+                            onClick={() =>
+                                this.changeScroll(
+                                    5,
+                                    this.props.chatMessages.length - 14
+                                )
+                            }
+                        />
+                        <div
+                            className="downscroll"
+                            onClick={() =>
+                                this.changeScroll(
+                                    -5,
+                                    this.props.chatMessages.length - 14
+                                )
+                            }
+                        />
                         <div style={style.data.chatbg}>
                             {this.props.chatMessages.map((user, index) => (
                                 <div
@@ -67,7 +91,8 @@ class Chat extends React.Component {
                                     style={{
                                         bottom:
                                             (this.props.chatMessages.length -
-                                                index) *
+                                                index -
+                                                this.state.chatscroll) *
                                                 35 +
                                             "px"
                                     }}
