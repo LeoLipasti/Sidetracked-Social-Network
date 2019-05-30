@@ -10,9 +10,6 @@ body {
 }
 
 .bgimage {
-    background: url(stbg_fade.png);
-    background-repeat: repeat-x;
-    background-size: 50%;
 }
 
 a {
